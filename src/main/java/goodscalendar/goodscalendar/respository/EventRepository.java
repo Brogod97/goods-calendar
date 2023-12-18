@@ -11,6 +11,6 @@ public interface EventRepository {
     Optional<Event> findById(long id);
     List<Event> findByTitle(String title);
     List<Event> findByDate(Date date);
-    List<Event> findByType(String type);
+    List<Event> findByType(String[] type);
     List<Event> findAll();
 }

@@ -28,8 +28,10 @@ public class MysqlEventRepository implements EventRepository{
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("title", event.getTitle());
+        parameters.put("thumbnail", event.getThumbnail());
         parameters.put("type", event.getType());
         parameters.put("theater", event.getTheater());
+        parameters.put("link", event.getLink());
         parameters.put("startDate", event.getStartDate());
         parameters.put("endDate", event.getEndDate());
 
@@ -40,29 +42,31 @@ public class MysqlEventRepository implements EventRepository{
 
     @Override
     public Optional<Event> findById(long id) {
-        List<Event> result = jdbcTemplate.query("select * from event where id = ?"
-                , eventRowMapper(), id);
+        List<Event> result = jdbcTemplate.query("select * from event where id = ?", eventRowMapper(), id);
         return result.stream().findAny();
     }
 
     @Override
     public List<Event> findByTitle(String title) {
-        return null;
+        String wrappedTitle = "%" + title + "%";
+        return jdbcTemplate.query("select * from event where title like ?", eventRowMapper(), wrappedTitle);
     }
 
+    // TODO: 달력 년 월 검색 시 동작 처리 고민
     @Override
     public List<Event> findByDate(Date date) {
         return null;
     }
 
     @Override
-    public List<Event> findByType(String type) {
-        return null;
+    public List<Event> findByType(String[] typeList) {
+        String wrappedTypeList = "(" + String.join(", ", typeList) + ")";
+        return jdbcTemplate.query("select * from event where in ?", eventRowMapper(), wrappedTypeList);
     }
 
     @Override
     public List<Event> findAll() {
-        return null;
+        return jdbcTemplate.query("select * from event", eventRowMapper());
     }
 
     private RowMapper<Event> eventRowMapper() {
@@ -70,8 +74,10 @@ public class MysqlEventRepository implements EventRepository{
             Event event = new Event();
             event.setId(rs.getLong("id"));
             event.setTitle(rs.getString("title"));
-            event.setType(rs.getString("type"));
+            event.setThumbnail(rs.getString("thumbnail"));
+            event.setType(rs.getString("goods_type"));
             event.setTheater(rs.getString("theater"));
+            event.setLink(rs.getString("link"));
             event.setStartDate(rs.getString("startDate"));
             event.setEndDate(rs.getString("endDate"));
             return event;
