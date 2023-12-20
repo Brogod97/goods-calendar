@@ -29,7 +29,7 @@ public class MysqlEventRepository implements EventRepository{
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("title", event.getTitle());
         parameters.put("thumbnail", event.getThumbnail());
-        parameters.put("type", event.getType());
+        parameters.put("goods_type", event.getType());
         parameters.put("theater", event.getTheater());
         parameters.put("link", event.getLink());
         parameters.put("startDate", event.getStartDate());

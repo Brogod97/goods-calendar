@@ -10,5 +10,5 @@ public enum EventPage {
     CGV("http://www.cgv.co.kr/culture-event/event/defaultNew.aspx#2"),
     LOTTE_CINEMA("https://event.lottecinema.co.kr/NLCHS/Event/DetailList?code=20");
 
-    private final String description;
+    private final String desc;
 }
