@@ -1,6 +1,7 @@
 package goodscalendar.goodscalendar.respository;
 
 import goodscalendar.goodscalendar.domain.Event;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -12,6 +13,7 @@ import javax.sql.DataSource;
 import java.util.*;
 
 @Repository
+@Slf4j
 public class MysqlEventRepository implements EventRepository{
 
     private final JdbcTemplate jdbcTemplate;
@@ -21,7 +23,6 @@ public class MysqlEventRepository implements EventRepository{
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    @Override
     public Event save(Event event) {
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
         jdbcInsert.withTableName("event").usingGeneratedKeyColumns("id");
@@ -40,31 +41,28 @@ public class MysqlEventRepository implements EventRepository{
         return event;
     }
 
-    @Override
     public Optional<Event> findById(long id) {
         List<Event> result = jdbcTemplate.query("select * from event where id = ?", eventRowMapper(), id);
         return result.stream().findAny();
     }
 
-    @Override
-    public List<Event> findByTitle(String title) {
-        String wrappedTitle = "%" + title + "%";
+    public List<Event> findByTitle(String inputValue) {
+        String wrappedTitle = "%" + inputValue + "%";
         return jdbcTemplate.query("select * from event where title like ?", eventRowMapper(), wrappedTitle);
     }
 
     // TODO: 달력 년 월 검색 시 동작 처리 고민
-    @Override
     public List<Event> findByDate(Date date) {
         return null;
     }
 
-    @Override
-    public List<Event> findByType(String[] typeList) {
-        String wrappedTypeList = "(" + String.join(", ", typeList) + ")";
-        return jdbcTemplate.query("select * from event where in ?", eventRowMapper(), wrappedTypeList);
+    public List<Event> findByType(String[] inputValue) {
+//        Map<String, Object> paramMap = new HashMap<>();
+//        paramMap.put("typeList", inputValue);
+//        return jdbcTemplate.query("select * from event where goods_type in (:typeList)", paramMap, eventRowMapper());
+        return null;
     }
 
-    @Override
     public List<Event> findAll() {
         return jdbcTemplate.query("select * from event", eventRowMapper());
     }

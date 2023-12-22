@@ -36,4 +36,19 @@ public class EventService {
         }
     }
 
+    public List<Event> getEventList() {
+        return mysqlEventRepository.findAll();
+    }
+
+    //    public List<Event> getEventListByDate(){}
+
+    //    public void getEventListByType(String[] inputValue) {}
+
+    public List<Event> getEventListByTitle(String inputValue) {
+        return mysqlEventRepository.findByTitle(inputValue);
+    }
+
+
+
+
 }
