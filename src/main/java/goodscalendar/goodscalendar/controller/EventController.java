@@ -17,10 +17,11 @@ public class EventController {
     // TODO: 크롤링 스케줄링 적용
     @PostMapping("event/save")
     public void saveEvent() {
-        String url = EventPage.MEGABOX.getDesc();
-        String theater = EventPage.MEGABOX.name();
-        eventService.saveEvent(url, theater);
+        for (EventPage eventPage : EventPage.values()) {
+            String url = eventPage.getDesc();
+            String theater = eventPage.name();
 
-        // 영화관 Enum을 이용해 for문 구현
+            eventService.saveEvent(url, theater);
+        }
     }
 }
