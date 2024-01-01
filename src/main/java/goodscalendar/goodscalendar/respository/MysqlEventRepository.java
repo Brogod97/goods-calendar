@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 @Slf4j
@@ -55,11 +56,13 @@ public class MysqlEventRepository implements EventRepository{
         return jdbcTemplate.query("select * from event where substring(startDate, 1, 4) = ? and SUBSTRING(startDate, 6, 2) = ?", eventRowMapper(), year, month);
     }
 
-    public List<Event> findByType(String[] type) {
-//        Map<String, Object> paramMap = new HashMap<>();
-//        paramMap.put("typeList", inputValue);
-//        return jdbcTemplate.query("select * from event where goods_type in (:typeList)", paramMap, eventRowMapper());
-        return null;
+    public List<Event> findByType(List<String> typeList) {
+        String param = typeList.stream()
+                        .map(type -> "'" + type + "'")
+                        .collect(Collectors.joining(","));
+        log.info("param={}", param);
+
+        return jdbcTemplate.query("select * from event where goods_type in (" + param + ")", eventRowMapper());
     }
 
     public List<Event> findAll() {

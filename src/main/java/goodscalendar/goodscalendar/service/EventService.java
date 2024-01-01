@@ -45,7 +45,9 @@ public class EventService {
         return mysqlEventRepository.findByDate(year, month);
     }
 
-    //    public void getEventListByType(String[] inputValue) {}
+    public List<Event> getEventListByType(List<String> typeList) {
+        return mysqlEventRepository.findByType(typeList);
+    }
 
     public List<Event> getEventListByTitle(String inputValue) {
         return mysqlEventRepository.findByTitle(inputValue);
