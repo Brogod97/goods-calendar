@@ -51,12 +51,11 @@ public class MysqlEventRepository implements EventRepository{
         return jdbcTemplate.query("select * from event where title like ?", eventRowMapper(), wrappedTitle);
     }
 
-    // TODO: 달력 년 월 검색 시 동작 처리 고민
-    public List<Event> findByDate(Date date) {
-        return null;
+    public List<Event> findByDate(String year, String month) {
+        return jdbcTemplate.query("select * from event where substring(startDate, 1, 4) = ? and SUBSTRING(startDate, 6, 2) = ?", eventRowMapper(), year, month);
     }
 
-    public List<Event> findByType(String[] inputValue) {
+    public List<Event> findByType(String[] type) {
 //        Map<String, Object> paramMap = new HashMap<>();
 //        paramMap.put("typeList", inputValue);
 //        return jdbcTemplate.query("select * from event where goods_type in (:typeList)", paramMap, eventRowMapper());

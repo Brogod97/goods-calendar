@@ -20,7 +20,7 @@ public class EventController {
     private final EventService eventService;
 
     // TODO: 크롤링 스케줄링 적용
-    @PostMapping("event")
+    @PostMapping("events")
     public void saveEvent() {
         for (EventPage eventPage : EventPage.values()) {
             String url = eventPage.getDesc();
@@ -30,22 +30,22 @@ public class EventController {
         }
     }
 
-    @GetMapping("event")
+    @GetMapping("events")
     public List<Event> getEventList() {
         return eventService.getEventList();
     }
 
-    @GetMapping("event/date")
-    public List<Event> getEventListByDate() {
-        return null;
+    @GetMapping("events/date")
+    public List<Event> getEventListByDate(@RequestParam String year, @RequestParam String month) {
+        return eventService.getEventListByDate(year, month);
     }
 
-    @GetMapping("event/type")
+    @GetMapping("events/type")
     public List<Event> getEventListByType(@RequestParam String[] inputValue) {
         return null;
     }
 
-    @GetMapping("event/search")
+    @GetMapping("events/search")
     public List<Event> getEventListByTitle(@RequestParam String inputValue) {
         return eventService.getEventListByTitle(inputValue);
     }
