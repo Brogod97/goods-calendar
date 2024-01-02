@@ -42,12 +42,7 @@ public class EventController {
 
     @GetMapping("events/type")
     public List<Event> getEventListByType(@RequestParam(name="type") List<String> typeList) {
-        log.info("typeList={}", typeList);
-
         List<Event> eventList = eventService.getEventListByType(typeList);
-        for (Event event : eventList) {
-            log.info("event={}", event);
-        }
 
         return eventList;
     }

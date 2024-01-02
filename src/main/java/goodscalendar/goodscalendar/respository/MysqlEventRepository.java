@@ -60,7 +60,6 @@ public class MysqlEventRepository implements EventRepository{
         String param = typeList.stream()
                         .map(type -> "'" + type + "'")
                         .collect(Collectors.joining(","));
-        log.info("param={}", param);
 
         return jdbcTemplate.query("select * from event where goods_type in (" + param + ")", eventRowMapper());
     }
