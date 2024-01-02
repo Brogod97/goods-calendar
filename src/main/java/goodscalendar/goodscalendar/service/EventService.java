@@ -1,6 +1,7 @@
 package goodscalendar.goodscalendar.service;
 
 import goodscalendar.goodscalendar.domain.Event;
+import goodscalendar.goodscalendar.respository.EventRepository;
 import goodscalendar.goodscalendar.respository.MysqlEventRepository;
 import goodscalendar.goodscalendar.crawling.EventCrawler;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ import java.util.List;
 @Service
 public class EventService {
 
-    private final MysqlEventRepository mysqlEventRepository;
+    private final EventRepository mysqlEventRepository;
     private final EventCrawler eventCrawler;
     private WebDriver driver; // TODO: headless 적용하기
     private static final String driverPath = "driver/chromedriver.exe";
@@ -34,6 +35,22 @@ public class EventService {
                 log.info("savedEvent={}", savedEvent);
             }
         }
+    }
+
+    public List<Event> getEventList() {
+        return mysqlEventRepository.findAll();
+    }
+
+    public List<Event> getEventListByDate(String year, String month){
+        return mysqlEventRepository.findByDate(year, month);
+    }
+
+    public List<Event> getEventListByType(List<String> typeList) {
+        return mysqlEventRepository.findByType(typeList);
+    }
+
+    public List<Event> getEventListByTitle(String inputValue) {
+        return mysqlEventRepository.findByTitle(inputValue);
     }
 
 }

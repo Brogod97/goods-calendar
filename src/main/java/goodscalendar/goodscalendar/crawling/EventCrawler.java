@@ -62,7 +62,7 @@ public class EventCrawler {
                     String startDate = split[0];
                     String endDate = split[1];
 
-                    if( (title.contains("TTT") && !title.contains("TTT 콜렉팅북")) || title.contains("포스터")){
+                    if( title.contains("TTT") && !title.contains("TTT 콜렉팅북") ){
                         String type = GoodsType.TTT.name();
                         Event event = new Event(title, thumbnail, type, theater, eventLink, startDate, endDate);
                         eventList.add(event);
