@@ -2,12 +2,12 @@ package goodscalendar.goodscalendar.service;
 
 import goodscalendar.goodscalendar.domain.Event;
 import goodscalendar.goodscalendar.respository.EventRepository;
-import goodscalendar.goodscalendar.respository.MysqlEventRepository;
 import goodscalendar.goodscalendar.crawling.EventCrawler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,22 +19,33 @@ public class EventService {
 
     private final EventRepository mysqlEventRepository;
     private final EventCrawler eventCrawler;
-    private WebDriver driver; // TODO: headless 적용하기
+    private WebDriver driver;
     private static final String driverPath = "driver/chromedriver.exe";
 
     public void saveEvent(String url, String theater) {
-        driver = new ChromeDriver();
         System.setProperty("webdriver.chrome.driver", driverPath);
-        log.info("driver 생성됨");
 
-        List<Event> eventList = eventCrawler.process(driver, url, theater);
+        try {
+            createDriver();
 
-        for (Event event : eventList) {
-            if(mysqlEventRepository.findByTitle(event.getTitle()).isEmpty()) {
-                Event savedEvent = mysqlEventRepository.save(event);
-                log.info("savedEvent={}", savedEvent);
+            List<Event> eventList = eventCrawler.process(driver, url, theater);
+            for (Event event : eventList) {
+                if(mysqlEventRepository.findByTitle(event.getTitle()).isEmpty()) {
+                    mysqlEventRepository.save(event);
+                    Event savedEvent = mysqlEventRepository.save(event);
+                    log.info("savedEvent={}", savedEvent);
+                }
             }
+        } catch (Exception e) {
+            log.error("EventService Error {}", e.getMessage());
         }
+    }
+
+    private void createDriver() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        driver = new ChromeDriver(options);
+        log.info("Driver 생성");
     }
 
     public List<Event> getEventList() {

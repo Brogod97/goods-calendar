@@ -5,29 +5,35 @@ import goodscalendar.goodscalendar.domain.EventPage;
 import goodscalendar.goodscalendar.service.EventService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+
+@Slf4j
 @RestController
 @RequiredArgsConstructor
-@Slf4j
+@EnableScheduling
 public class EventController {
 
     private final EventService eventService;
 
-    // TODO: 크롤링 스케줄링 적용
+    @Scheduled(cron = "0 0 * * * *")
     @PostMapping("events")
     public void saveEvent() {
+        log.info("Start saveEvent(), time = {}", LocalDateTime.now());
+
         for (EventPage eventPage : EventPage.values()) {
             String url = eventPage.getDesc();
             String theater = eventPage.name();
 
             eventService.saveEvent(url, theater);
         }
+
+        log.info("End saveEvent(), time = {}", LocalDateTime.now());
     }
 
     @GetMapping("events")

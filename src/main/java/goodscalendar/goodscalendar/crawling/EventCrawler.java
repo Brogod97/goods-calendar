@@ -15,7 +15,7 @@ import java.util.List;
 @Component
 @Slf4j
 public class EventCrawler {
-    public List<Event> process(WebDriver driver, String url, String theater) {
+    public List<Event> process(WebDriver driver, String url, String theater) throws Exception{
 
         try {
             driver.get(url);
@@ -32,7 +32,6 @@ public class EventCrawler {
                     String eventId = e.findElement(By.cssSelector("a")).getAttribute("data-no");
                     String eventLink = "https://www.megabox.co.kr/event/detail?eventNo=" + eventId;
 
-                    // TODO: date 값 yyyy-mm-dd로 변경 고려
                     String dueDate = e.findElement(By.cssSelector("a > p.date")).getText();
                     String[] split = dueDate.split("~");
                     String startDate = split[0];
@@ -56,7 +55,6 @@ public class EventCrawler {
                     // http://www.cgv.co.kr/culture-event/event/ + detailViewUnited.aspx?seq=39257&menu=001
                     String eventLink = e.findElement(By.cssSelector("a")).getAttribute("href");
 
-                    // TODO: date 값 yyyy-mm-dd로 변경 고려
                     String dueDate = e.findElement(By.cssSelector("a > div.evt-desc > p.txt2")).getText();
                     String[] split = dueDate.split("~");
                     String startDate = split[0];
@@ -70,7 +68,6 @@ public class EventCrawler {
                 }
             }
 
-
             if(theater.equals("LOTTE")) {
                 List<WebElement> webElements = driver.findElements(By.cssSelector("ul.img_lst_wrap > li"));
                 // https://event.lottecinema.co.kr/NLCHS/Event/EventTemplateInfo?eventId= + 201010016923769
@@ -78,7 +75,7 @@ public class EventCrawler {
                 for (WebElement e : webElements) {
                     String title = e.findElement(By.cssSelector("a > img")).getAttribute("alt");
 
-                    if(title.contains("시그니처 아트카드")){
+                    if(title.contains("아트카드")){
                         String thumbnail = e.findElement(By.cssSelector("a > img")).getAttribute("src");
                         String dueDate = e.findElement(By.cssSelector("a > div.itm_date")).getText();
                         String[] split = dueDate.split("~");
