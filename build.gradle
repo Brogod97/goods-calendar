@@ -25,7 +25,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-	runtimeOnly 'com.mysql:mysql-connector-j'
+    testImplementation 'org.projectlombok:lombok:1.18.26'
+    runtimeOnly 'com.mysql:mysql-connector-j'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -37,4 +38,12 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+processResources.dependsOn('copySecret')
+
+tasks.register('copySecret', Copy) {
+	from './gc-config'
+	include "application.properties"
+	into 'src/main/resources'
 }
