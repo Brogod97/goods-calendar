@@ -1,0 +1,3 @@
+[submodule "gc-config"]
+	path = gc-config
+	url = https://github.com/Brogod97/gc-config.git
