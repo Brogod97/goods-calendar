@@ -3,10 +3,7 @@ package goodscalendar.goodscalendar.crawling;
 import goodscalendar.goodscalendar.domain.Event;
 import goodscalendar.goodscalendar.domain.GoodsType;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Component;
@@ -32,7 +29,7 @@ public class EventCrawler {
         driver.get(url);
         List<Event> eventList = new ArrayList<>();
 
-        switch(theater) {
+        switch (theater) {
             case "MEGABOX":
                 megabox(theater, eventList);
                 break;
@@ -64,7 +61,6 @@ public class EventCrawler {
             String title = e.findElement(By.cssSelector("a > p.tit")).getText();
             String thumbnail = e.findElement(By.cssSelector("a > p.img > img")).getAttribute("src");
 
-            // https://www.megabox.co.kr/event/detail?eventNo=12345
             String eventId = e.findElement(By.cssSelector("a")).getAttribute("data-no");
             String eventLink = "https://www.megabox.co.kr/event/detail?eventNo=" + eventId;
 
@@ -73,7 +69,7 @@ public class EventCrawler {
             String startDate = split[0];
             String endDate = split[1];
 
-            if(title.contains("오리지널 티켓") && !title.contains("오리지널 티켓북")){
+            if (title.contains("오리지널 티켓") && !title.contains("오리지널 티켓북")) {
                 String type = GoodsType.OT.name();
                 Event event = new Event(title, thumbnail, type, theater, eventLink, startDate, endDate);
                 eventList.add(event);
@@ -88,7 +84,6 @@ public class EventCrawler {
             String title = e.findElement(By.cssSelector("a > div.evt-desc > p.txt1")).getText();
             String thumbnail = e.findElement(By.cssSelector("a > div.evt-thumb > img")).getAttribute("src");
 
-            // http://www.cgv.co.kr/culture-event/event/ + detailViewUnited.aspx?seq=39257&menu=001
             String eventLink = e.findElement(By.cssSelector("a")).getAttribute("href");
 
             String dueDate = e.findElement(By.cssSelector("a > div.evt-desc > p.txt2")).getText();
@@ -96,7 +91,7 @@ public class EventCrawler {
             String startDate = split[0];
             String endDate = split[1];
 
-            if( title.contains("TTT") && !title.contains("TTT 콜렉팅북") ){
+            if (title.contains("TTT") && !title.contains("TTT 콜렉팅북")) {
                 String type = GoodsType.TTT.name();
                 Event event = new Event(title, thumbnail, type, theater, eventLink, startDate, endDate);
                 eventList.add(event);
@@ -106,19 +101,25 @@ public class EventCrawler {
 
     private void LotteCinema(String theater, List<Event> eventList) {
         List<WebElement> webElements = driver.findElements(By.cssSelector("ul.img_lst_wrap > li"));
-        // https://event.lottecinema.co.kr/NLCHS/Event/EventTemplateInfo?eventId= + 201010016923769
 
         for (WebElement e : webElements) {
             String title = e.findElement(By.cssSelector("a > img")).getAttribute("alt");
 
-            if(title.contains("아트카드")){
+            if (title.contains("아트카드")) {
                 String thumbnail = e.findElement(By.cssSelector("a > img")).getAttribute("src");
+
                 String dueDate = e.findElement(By.cssSelector("a > div.itm_date")).getText();
                 String[] split = dueDate.split("~");
                 String startDate = split[0];
                 String endDate = split[1];
 
-                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", e.findElement(By.cssSelector("a")));
+                // ((JavascriptExecutor) driver).executeScript("arguments[0].click();",
+                // e.findElement(By.cssSelector("a")));
+                // String eventLink = driver.getCurrentUrl();
+                // driver.navigate().back();
+
+                WebElement specificPage = e.findElement(By.cssSelector("a"));
+                specificPage.click();
                 String eventLink = driver.getCurrentUrl();
                 driver.navigate().back();
 
@@ -129,8 +130,5 @@ public class EventCrawler {
             }
         }
     }
-
-
-
 
 }

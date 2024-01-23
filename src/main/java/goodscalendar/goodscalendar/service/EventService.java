@@ -5,9 +5,6 @@ import goodscalendar.goodscalendar.respository.EventRepository;
 import goodscalendar.goodscalendar.crawling.EventCrawler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
