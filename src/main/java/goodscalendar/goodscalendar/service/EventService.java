@@ -19,33 +19,16 @@ public class EventService {
 
     private final EventRepository mysqlEventRepository;
     private final EventCrawler eventCrawler;
-    private WebDriver driver;
-    private static final String driverPath = "driver/chromedriver.exe";
 
     public void saveEvent(String url, String theater) {
-        System.setProperty("webdriver.chrome.driver", driverPath);
 
-        try {
-            createDriver();
-
-            List<Event> eventList = eventCrawler.process(driver, url, theater);
-            for (Event event : eventList) {
-                if(mysqlEventRepository.findByTitle(event.getTitle()).isEmpty()) {
-                    mysqlEventRepository.save(event);
-                    Event savedEvent = mysqlEventRepository.save(event);
-                    log.info("savedEvent={}", savedEvent);
-                }
+        List<Event> eventList = eventCrawler.process(url, theater);
+        for (Event event : eventList) {
+            if(mysqlEventRepository.findByTitle(event.getTitle()).isEmpty()) {
+                Event savedEvent = mysqlEventRepository.save(event);
+                log.info("savedEvent={}", savedEvent);
             }
-        } catch (Exception e) {
-            log.error("EventService Error {}", e.getMessage());
         }
-    }
-
-    private void createDriver() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
-        driver = new ChromeDriver(options);
-        log.info("Driver 생성");
     }
 
     public List<Event> getEventList() {
