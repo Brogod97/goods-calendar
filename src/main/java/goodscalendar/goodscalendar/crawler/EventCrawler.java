@@ -1,4 +1,4 @@
-package goodscalendar.goodscalendar.crawling;
+package goodscalendar.goodscalendar.crawler;
 
 import goodscalendar.goodscalendar.domain.Event;
 import goodscalendar.goodscalendar.domain.GoodsType;
