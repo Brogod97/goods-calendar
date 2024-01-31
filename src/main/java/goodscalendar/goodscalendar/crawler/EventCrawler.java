@@ -1,6 +1,7 @@
 package goodscalendar.goodscalendar.crawler;
 
 import goodscalendar.goodscalendar.domain.Event;
+import goodscalendar.goodscalendar.domain.EventPage;
 import goodscalendar.goodscalendar.domain.GoodsType;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
@@ -107,15 +108,16 @@ public class EventCrawler {
                 String startDate = dueDate.get(0);
                 String endDate = dueDate.get(1);
 
-                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", e.findElement(By.cssSelector("a")));
-                String eventLink = driver.getCurrentUrl();
-                driver.navigate().back();
+//                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", e.findElement(By.cssSelector("a")));
+//                String eventLink = driver.getCurrentUrl();
+//                driver.navigate().back();
 
 //                WebElement specificPage = e.findElement(By.cssSelector("a"));
 //                specificPage.click();
 //                String eventLink = driver.getCurrentUrl();
 //                driver.navigate().back();
 
+                String eventLink = EventPage.LOTTE.getDesc();
                 String type = GoodsType.AC.name();
 
                 Event event = new Event(title, thumbnail, type, theater, eventLink, startDate, endDate);
