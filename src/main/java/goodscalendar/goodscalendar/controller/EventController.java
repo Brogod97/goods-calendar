@@ -17,6 +17,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @EnableScheduling
+@CrossOrigin(origins = "http://localhost:3000")
 public class EventController {
 
     private final EventService eventService;
