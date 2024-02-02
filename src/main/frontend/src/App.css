@@ -1,38 +1,123 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+/* 모바일 화면에 대한 스타일 */
+@media (max-width: 768px) {
+  body {
+    margin: 0 5px;
+  }
+  .dotCgv {
+    width: 4px;
+    height: 4px;
+    background-color: #e42313;
+    display: flex;
+    margin-left: 2px;
+  }
+  .dotMega {
+    width: 4px;
+    height: 4px;
+    background-color: #362462;
+    display: flex;
+    margin-left: 2px;
+  }
+  .dotLotte {
+    width: 4px;
+    height: 4px;
+    background-color: #ee870e;
+    display: flex;
+    margin-left: 2px;
+  }
+  .contents {
+    margin-top: 16px;
+    margin-bottom: 24px;
+  }
+  .dotDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    transform: translate(-8%, 250%);
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* 태블릿 화면에 대한 스타일 */
+@media (min-width: 769px) and (max-width: 1366px) {
+  body {
+    margin: 0 30px;
+  }
+  .dotCgv {
+    width: 8px;
+    height: 8px;
+    background-color: #e42313;
+    display: flex;
+    margin-left: 2px;
+  }
+  .dotMega {
+    width: 8px;
+    height: 8px;
+    background-color: #362462;
+    display: flex;
+    margin-left: 2px;
+  }
+  .dotLotte {
+    width: 8px;
+    height: 8px;
+    background-color: #ee870e;
+    display: flex;
+    margin-left: 2px;
+  }
+  .contents {
+    margin-top: 25px;
+    margin-bottom: 35px;
+  }
+  .dotDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    transform: translate(-8%, 150%);
+  }
+}
+
+/* 웹 화면에 대한 스타일 */
+@media (min-width: 1367px) {
+  body {
+    margin: 0 113px;
+  }
+  .dotCgv {
+    width: 8px;
+    height: 8px;
+    background-color: #e42313;
+    display: flex;
+    margin-left: 2px;
+  }
+  .dotMega {
+    width: 8px;
+    height: 8px;
+    background-color: #362462;
+    display: flex;
+    margin-left: 2px;
+  }
+  .dotLotte {
+    width: 8px;
+    height: 8px;
+    background-color: #ee870e;
+    display: flex;
+    margin-left: 2px;
+  }
+  .contents {
+    margin-top: 25px;
+    margin-bottom: 35px;
+  }
+  .dotDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    transform: translate(-8%, 150%);
+  }
+}
+
+.absoluteDiv {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  align-items: center;
+  position: relative;
 }

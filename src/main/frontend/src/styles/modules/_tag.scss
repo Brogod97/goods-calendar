@@ -1,0 +1,24 @@
+%tag-base {
+  @include inline-flexbox;
+  @include text-style(12);
+  color: $white;
+  height: 18px;
+  padding: 0 8px;
+  font-weight: 400;
+  border-radius: 4px;
+}
+
+.tag-red {
+  @extend %tag-base;
+  background-color: $red;
+}
+
+.tag-orange {
+  @extend %tag-base;
+  background-color: $orange;
+}
+
+.tag-purple {
+  @extend %tag-base;
+  background-color: $purple;
+}

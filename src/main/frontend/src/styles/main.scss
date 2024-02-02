@@ -1,7 +1,17 @@
-$color: #10d211;
+@import "./constants/colors";
+@import "./constants/typography";
+@import "./constants/grids";
+@import "./constants/breakpoints";
 
-p {
-  font-size: 16px;
-  color: $color;
-  font-weight: 100;
-}
+@import "./base/normalisze";
+@import "./base/reset";
+@import "./base/globals";
+
+@import "./mixins/text-style";
+@import "./mixins/flexbox";
+@import "./mixins/positions";
+@import "./mixins/responsive";
+
+@import "./modules/tag";
+
+@import "./layouts/grids";
