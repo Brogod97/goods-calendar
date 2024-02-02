@@ -34,7 +34,7 @@ function App() {
           .map((event) => moment(event.startDate).format("YYYY-MM-DD"));
 
         const markLotteDates = response.data
-          .filter((event) => event.theater === "LOTTECINEMA")
+          .filter((event) => event.theater === "LOTTE")
           .map((event) => moment(event.startDate).format("YYYY-MM-DD"));
 
         setMarkCgv(markCgvDates);
@@ -105,7 +105,11 @@ function App() {
                 ></div>
               );
             }
-            return <div className="absoluteDiv">{html}</div>;
+            return (
+              <div className="absoluteDiv">
+                <div className="dotDiv">{html}</div>
+              </div>
+            );
           }}
         />
       </div>
