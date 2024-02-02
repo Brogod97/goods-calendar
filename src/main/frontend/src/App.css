@@ -4,32 +4,36 @@
     margin: 0 5px;
   }
   .dotCgv {
-    margin-top: 12px;
     width: 4px;
     height: 4px;
     background-color: #e42313;
-    position: absolute;
-    z-index: 1;
+    display: flex;
+    margin-left: 2px;
   }
   .dotMega {
-    margin-top: 12px;
     width: 4px;
     height: 4px;
     background-color: #362462;
-    position: absolute;
-    z-index: 2;
+    display: flex;
+    margin-left: 2px;
   }
   .dotLotte {
-    margin-top: 12px;
     width: 4px;
     height: 4px;
     background-color: #ee870e;
-    position: absolute;
-    z-index: 3;
+    display: flex;
+    margin-left: 2px;
   }
   .contents {
     margin-top: 16px;
     margin-bottom: 24px;
+  }
+  .dotDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    transform: translate(-8%, 250%);
   }
 }
 
@@ -42,23 +46,33 @@
     width: 8px;
     height: 8px;
     background-color: #e42313;
-    position: absolute;
+    display: flex;
+    margin-left: 2px;
   }
   .dotMega {
     width: 8px;
     height: 8px;
     background-color: #362462;
-    position: absolute;
+    display: flex;
+    margin-left: 2px;
   }
   .dotLotte {
     width: 8px;
     height: 8px;
     background-color: #ee870e;
-    position: absolute;
+    display: flex;
+    margin-left: 2px;
   }
   .contents {
     margin-top: 25px;
     margin-bottom: 35px;
+  }
+  .dotDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    transform: translate(-8%, 150%);
   }
 }
 
@@ -71,19 +85,33 @@
     width: 8px;
     height: 8px;
     background-color: #e42313;
-    position: absolute;
+    display: flex;
+    margin-left: 2px;
   }
   .dotMega {
     width: 8px;
     height: 8px;
     background-color: #362462;
-    position: absolute;
+    display: flex;
+    margin-left: 2px;
   }
   .dotLotte {
     width: 8px;
     height: 8px;
     background-color: #ee870e;
+    display: flex;
+    margin-left: 2px;
+  }
+  .contents {
+    margin-top: 25px;
+    margin-bottom: 35px;
+  }
+  .dotDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: absolute;
+    transform: translate(-8%, 150%);
   }
 }
 
@@ -91,4 +119,5 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
