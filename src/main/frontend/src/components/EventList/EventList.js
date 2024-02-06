@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import filtericon from "../filter/filter.svg";
 import "./EventList.css";
 
-const EventList = ({ events }) => {
+const EventList = ({ events, searchValue }) => {
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
 
@@ -22,6 +22,12 @@ const EventList = ({ events }) => {
   const filteredEvents = selectedFilters.length
     ? events.filter((event) => selectedFilters.includes(event.type))
     : events;
+
+  const searchedEvents = searchValue
+    ? filteredEvents.filter((event) => {
+        return event.title.toLowerCase().includes(searchValue.toLowerCase());
+      })
+    : filteredEvents;
 
   return (
     <div>
@@ -65,32 +71,36 @@ const EventList = ({ events }) => {
         </div>
       </div>
       <ul>
-        {filteredEvents.map((event) => (
-          <li key={event.id}>
-            <a href={event.link} target="_blank" rel="noopener noreferrer">
-              <div className="event_img">
-                <img src={event.thumbnail} alt="썸네일" />
-              </div>
-              <div className="event_info">
-                <div className="event_card">
-                  <p className={event.type}>
-                    {event.type === "AC" && "아트카드"}
-                    {event.type === "OT" && "오리지널 티켓"}
-                    {event.type === "TTT" && "TTT"}
-                  </p>
+        {searchedEvents.map(
+          (
+            event // 검색된 이벤트만 매핑
+          ) => (
+            <li key={event.id}>
+              <a href={event.link} target="_blank" rel="noopener noreferrer">
+                <div className="event_img">
+                  <img src={event.thumbnail} alt="썸네일" />
                 </div>
-                <div className="event_title">
-                  <strong>{event.title}</strong>
+                <div className="event_info">
+                  <div className="event_card">
+                    <p className={event.type}>
+                      {event.type === "AC" && "아트카드"}
+                      {event.type === "OT" && "오리지널 티켓"}
+                      {event.type === "TTT" && "TTT"}
+                    </p>
+                  </div>
+                  <div className="event_title">
+                    <strong>{event.title}</strong>
+                  </div>
+                  <div className="event_date">
+                    <p>
+                      {event.startDate} ~ {event.endDate}
+                    </p>
+                  </div>
                 </div>
-                <div className="event_date">
-                  <p>
-                    {event.startDate} ~ {event.endDate}
-                  </p>
-                </div>
-              </div>
-            </a>
-          </li>
-        ))}
+              </a>
+            </li>
+          )
+        )}
       </ul>
     </div>
   );
