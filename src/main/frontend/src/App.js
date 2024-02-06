@@ -8,7 +8,7 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import DateSelector from "./components/DateSelector/DateSelector";
 import Help from "./components/Help/Help";
-import Searchicon from "./components/Searchicon/Searchicon";
+import Search from "./components/Searchicon/Search";
 import DateSelectorWithEventList from "./components/DateSelectorWithEventList/DateSelectorWithEventList";
 
 function App() {
@@ -17,6 +17,7 @@ function App() {
   const [markCgv, setMarkCgv] = useState([]);
   const [markMega, setMarkMega] = useState([]);
   const [markLotte, setMarkLotte] = useState([]);
+  const [searchValue, setSearchValue] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,13 +57,17 @@ function App() {
     setSelectedDate(date);
   };
 
+  const handleSearch = (searchValue) => {
+    setSearchValue(searchValue);
+  };
+
   return (
     <div>
       <Header />
       <div className="contents" style={{ display: "flex" }}>
         <DateSelector onConfirm={handleConfirm} selectedDate={selectedDate} />
         <Help />
-        <Searchicon />
+        <Search onSearch={handleSearch} />
       </div>
       <div className="cal">
         <Calendar
@@ -113,7 +118,11 @@ function App() {
           }}
         />
       </div>
-      <DateSelectorWithEventList selectedDate={selectedDate} events={events} />
+      <DateSelectorWithEventList
+        selectedDate={selectedDate}
+        events={events}
+        searchValue={searchValue}
+      />
       <Footer />
     </div>
   );
