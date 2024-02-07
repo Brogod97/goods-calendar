@@ -4,7 +4,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import EventList from "../EventList/EventList";
 import moment from "moment";
 
-const DateSelectorWithEventList = ({ selectedDate, events }) => {
+const DateSelectorWithEventList = ({ selectedDate, events, searchValue }) => {
   const [filteredEvents, setFilteredEvents] = useState([]);
 
   const fetchEventsByDate = useCallback(
@@ -24,7 +24,7 @@ const DateSelectorWithEventList = ({ selectedDate, events }) => {
 
   return (
     <div>
-      <EventList events={filteredEvents} />
+      <EventList events={filteredEvents} searchValue={searchValue} />
     </div>
   );
 };
