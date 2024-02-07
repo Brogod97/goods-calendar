@@ -3,83 +3,80 @@ package goodscalendar.goodscalendar.respository;
 import goodscalendar.goodscalendar.domain.Event;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.*;
-import java.util.stream.Collectors;
 
-@Repository
 @Slf4j
-public class MysqlEventRepository implements EventRepository{
+@Repository
+public class MysqlEventRepository implements EventRepository {
 
-    private final JdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert jdbcInsert;
 
     @Autowired
     public MysqlEventRepository(DataSource dataSource) {
-        jdbcTemplate = new JdbcTemplate(dataSource);
+        jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        this.jdbcInsert = new SimpleJdbcInsert(dataSource)
+                .withTableName("event")
+                .usingGeneratedKeyColumns("id");
     }
 
     public Event save(Event event) {
-        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
-        jdbcInsert.withTableName("event").usingGeneratedKeyColumns("id");
-
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("title", event.getTitle());
-        parameters.put("thumbnail", event.getThumbnail());
-        parameters.put("goods_type", event.getType());
-        parameters.put("theater", event.getTheater());
-        parameters.put("link", event.getLink());
-        parameters.put("startDate", event.getStartDate());
-        parameters.put("endDate", event.getEndDate());
-
-        Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
+        SqlParameterSource param = new BeanPropertySqlParameterSource(event);
+        Number key = jdbcInsert.executeAndReturnKey(param);
         event.setId(key.longValue());
         return event;
     }
 
     public Optional<Event> findById(long id) {
-        List<Event> result = jdbcTemplate.query("select * from event where id = ?", eventRowMapper(), id);
-        return result.stream().findAny();
+        String sql = "select * from event where id = :id";
+        Map<String, Long> param = Map.of("id", id);
+        Event event = jdbcTemplate.queryForObject(sql, param, eventRowMapper());
+        return Optional.of(event);
+
     }
 
     public List<Event> findByTitle(String inputValue) {
+        String sql = "select * from event where title like :inputValue";
         String wrappedTitle = "%" + inputValue + "%";
-        return jdbcTemplate.query("select * from event where title like ?", eventRowMapper(), wrappedTitle);
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("inputValue", wrappedTitle);
+
+        return jdbcTemplate.query(sql, param, eventRowMapper());
+
     }
 
     public List<Event> findByDate(String year, String month) {
-        return jdbcTemplate.query("select * from event where substring(startDate, 1, 4) = ? and SUBSTRING(startDate, 6, 2) = ?", eventRowMapper(), year, month);
+        String sql = "select * from event where substring(startDate, 1, 4) = :year and SUBSTRING(startDate, 6, 2) = :month";
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("year", year)
+                .addValue("month", month);
+        return jdbcTemplate.query(sql, param, eventRowMapper());
     }
 
     public List<Event> findByType(List<String> typeList) {
-        String param = typeList.stream()
-                        .map(type -> "'" + type + "'")
-                        .collect(Collectors.joining(","));
+        String sql = "select * from event where goods_type in (:typeList)";
 
-        return jdbcTemplate.query("select * from event where goods_type in (" + param + ")", eventRowMapper());
+        SqlParameterSource param = new MapSqlParameterSource("typeList", typeList);
+
+        return jdbcTemplate.query(sql, param, eventRowMapper());
     }
 
     public List<Event> findAll() {
-        return jdbcTemplate.query("select * from event", eventRowMapper());
+        String sql = "select * from event";
+        return jdbcTemplate.query(sql, eventRowMapper());
     }
 
     private RowMapper<Event> eventRowMapper() {
-        return (rs, rowNum) -> {
-            Event event = new Event();
-            event.setId(rs.getLong("id"));
-            event.setTitle(rs.getString("title"));
-            event.setThumbnail(rs.getString("thumbnail"));
-            event.setType(rs.getString("goods_type"));
-            event.setTheater(rs.getString("theater"));
-            event.setLink(rs.getString("link"));
-            event.setStartDate(rs.getString("startDate"));
-            event.setEndDate(rs.getString("endDate"));
-            return event;
-        };
+        return BeanPropertyRowMapper.newInstance(Event.class);
     }
 }

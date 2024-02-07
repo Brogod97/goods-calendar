@@ -2,13 +2,12 @@ package goodscalendar.goodscalendar.domain;
 
 import lombok.*;
 
-import java.util.Date;
-
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class Event {
     long id;
     String title;
