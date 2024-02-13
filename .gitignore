@@ -5,6 +5,9 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+### Spring Boot + React ###
+/src/main/resources/static
+
 ### Configs ###
 application.properties
 
