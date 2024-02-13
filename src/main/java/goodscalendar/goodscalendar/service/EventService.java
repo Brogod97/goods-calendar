@@ -12,10 +12,11 @@ import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class EventService {
 
-    private final EventRepository mysqlEventRepository;
+    private final EventRepository eventRepository;
     private final EventCrawler eventCrawler;
 
     @Transactional
@@ -23,27 +24,27 @@ public class EventService {
 
         List<Event> eventList = eventCrawler.process(url, theater);
         for (Event event : eventList) {
-            if(mysqlEventRepository.findByTitle(event.getTitle()).isEmpty()) {
-                Event savedEvent = mysqlEventRepository.save(event);
+            if(eventRepository.findByTitleContaining(event.getTitle()).isEmpty()) {
+                Event savedEvent = eventRepository.save(event);
                 log.info("savedEvent={}", savedEvent);
             }
         }
     }
 
     public List<Event> getEventList() {
-        return mysqlEventRepository.findAll();
+        return eventRepository.findAll();
     }
 
     public List<Event> getEventListByDate(String year, String month){
-        return mysqlEventRepository.findByDate(year, month);
+        return eventRepository.findByYearAndMonth(year, month);
     }
 
-    public List<Event> getEventListByType(List<String> typeList) {
-        return mysqlEventRepository.findByType(typeList);
+    public List<Event> getEventListByType(String[] typeList) {
+        return eventRepository.findByTypes(typeList);
     }
 
     public List<Event> getEventListByTitle(String inputValue) {
-        return mysqlEventRepository.findByTitle(inputValue);
+        return eventRepository.findByTitleContaining(inputValue);
     }
 
 }

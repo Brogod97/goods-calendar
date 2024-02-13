@@ -48,7 +48,7 @@ public class EventController {
     }
 
     @GetMapping("events/type")
-    public List<Event> getEventListByType(@RequestParam(name="type") List<String> typeList) {
+    public List<Event> getEventListByType(@RequestParam(name="type") String[] typeList) {
         List<Event> eventList = eventService.getEventListByType(typeList);
 
         return eventList;

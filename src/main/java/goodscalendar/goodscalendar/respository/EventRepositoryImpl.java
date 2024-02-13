@@ -2,7 +2,6 @@ package goodscalendar.goodscalendar.respository;
 
 import goodscalendar.goodscalendar.domain.Event;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -10,20 +9,17 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.*;
 
 @Slf4j
-@Repository
-public class MysqlEventRepository implements EventRepository {
+public class EventRepositoryImpl {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
 
-    @Autowired
-    public MysqlEventRepository(DataSource dataSource) {
+    public EventRepositoryImpl(DataSource dataSource) {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
         this.jdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("event")
@@ -37,7 +33,7 @@ public class MysqlEventRepository implements EventRepository {
         return event;
     }
 
-    public Optional<Event> findById(long id) {
+    public Optional<Event> findById(Long id) {
         String sql = "select * from event where id = :id";
         Map<String, Long> param = Map.of("id", id);
         Event event = jdbcTemplate.queryForObject(sql, param, eventRowMapper());

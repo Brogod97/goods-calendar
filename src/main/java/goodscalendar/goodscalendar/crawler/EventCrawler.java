@@ -65,8 +65,7 @@ public class EventCrawler {
 
             if (title.contains("오리지널 티켓") && !title.contains("오리지널 티켓북")) {
                 String type = GoodsType.OT.name();
-                Event event = new Event(title, thumbnail, type, theater, eventLink, startDate, endDate);
-                eventList.add(event);
+                createEvent(theater, eventList, title, thumbnail, startDate, endDate, eventLink, type);
             }
         }
     }
@@ -87,8 +86,7 @@ public class EventCrawler {
 
                 if (title.contains("TTT") && !title.contains("TTT 콜렉팅북")) {
                     String type = GoodsType.TTT.name();
-                    Event event = new Event(title, thumbnail, type, theater, eventLink, startDate, endDate);
-                    eventList.add(event);
+                    createEvent(theater, eventList, title, thumbnail, startDate, endDate, eventLink, type);
                 }
             }
         }
@@ -120,10 +118,14 @@ public class EventCrawler {
                 String eventLink = EventPage.LOTTE.getDesc();
                 String type = GoodsType.AC.name();
 
-                Event event = new Event(title, thumbnail, type, theater, eventLink, startDate, endDate);
-                eventList.add(event);
+                createEvent(theater, eventList, title, thumbnail, startDate, endDate, eventLink, type);
             }
         }
+    }
+
+    private static void createEvent(String theater, List<Event> eventList, String title, String thumbnail, String startDate, String endDate, String eventLink, String type) {
+        Event event = new Event(title, type, theater, startDate, endDate, eventLink, thumbnail);
+        eventList.add(event);
     }
 
     private ArrayList<String> splitDueDate(String dueDate) {
