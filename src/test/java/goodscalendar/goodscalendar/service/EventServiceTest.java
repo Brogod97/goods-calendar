@@ -1,7 +1,6 @@
 package goodscalendar.goodscalendar.service;
 
 import goodscalendar.goodscalendar.domain.Event;
-import goodscalendar.goodscalendar.domain.EventPage;
 import goodscalendar.goodscalendar.respository.EventRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
@@ -25,34 +24,10 @@ class EventServiceTest {
     @Autowired
     private EventRepository eventRepository;
 
-    /**
-     * 영화관 별 크롤링 이벤트 저장 테스트
-     */
     @Test
-    @DisplayName("씨지비 이벤트 크롤링 저장")
-    void cgv() {
-        String url = EventPage.CGV.getDesc();
-        String theater = EventPage.CGV.name();
-
-        service.saveEvent(url, theater);
-    }
-
-    @Test
-    @DisplayName("메가박스 이벤트 크롤링 저장")
-    void megabox() {
-        String url = EventPage.MEGABOX.getDesc();
-        String theater = EventPage.MEGABOX.name();
-
-        service.saveEvent(url, theater);
-    }
-
-    @Test
-    @DisplayName("롯데시네마 이벤트 크롤링 저장")
-    void lotteCinema() {
-        String url = EventPage.LOTTE.getDesc();
-        String theater = EventPage.LOTTE.name();
-
-        service.saveEvent(url, theater);
+    @DisplayName("영화관 3사 이벤트 크롤링 후 저장")
+    void saveEvent() {
+        service.saveEvent();
     }
 
     /**

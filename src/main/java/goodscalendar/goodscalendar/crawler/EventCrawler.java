@@ -3,6 +3,7 @@ package goodscalendar.goodscalendar.crawler;
 import goodscalendar.goodscalendar.domain.Event;
 import goodscalendar.goodscalendar.domain.EventPage;
 import goodscalendar.goodscalendar.domain.GoodsType;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -19,37 +20,29 @@ public class EventCrawler {
     private WebDriver driver;
     private static final String driverPath = "driver/chromedriver.exe";
 
-    public List<Event> process(String url, String theater) {
+    @PostConstruct
+    void driverInit() {
         System.setProperty("webdriver.chrome.driver", driverPath);
-
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
         driver = new ChromeDriver(options);
         log.info("Create Driver");
+    }
 
-        driver.get(url);
+    public List<Event> process() {
+
         List<Event> eventList = new ArrayList<>();
 
-        switch (theater) {
-            case "MEGABOX":
-                megabox(theater, eventList);
-                break;
-
-            case "CGV":
-                CGV(theater, eventList);
-                break;
-
-            case "LOTTE":
-                LotteCinema(theater, eventList);
-                break;
-        }
-
+        megabox(eventList);
+        cgv(eventList);
+        lotteCinema(eventList);
         closeDriver();
 
         return eventList;
     }
 
-    private void megabox(String theater, List<Event> eventList) {
+    private void megabox(List<Event> eventList) {
+        driver.get(EventPage.MEGABOX.getDesc());
         List<WebElement> webElements = driver.findElements(By.cssSelector("div.event-list > ul > li"));
 
         for (WebElement e : webElements) {
@@ -65,12 +58,15 @@ public class EventCrawler {
 
             if (title.contains("오리지널 티켓") && !title.contains("오리지널 티켓북")) {
                 String type = GoodsType.OT.name();
-                createEvent(theater, eventList, title, thumbnail, startDate, endDate, eventLink, type);
+                String theater = EventPage.MEGABOX.name();
+                Event event = new Event(title, type, theater, startDate, endDate, eventLink, thumbnail);
+                eventList.add(event);
             }
         }
     }
 
-    private void CGV(String theater, List<Event> eventList) {
+    private void cgv(List<Event> eventList) {
+        driver.get(EventPage.CGV.getDesc());
         List<WebElement> webElements = driver.findElements(By.cssSelector("ul.sect-evt-item-list > li"));
 
         for (WebElement e : webElements) {
@@ -86,14 +82,17 @@ public class EventCrawler {
 
                 if (title.contains("TTT") && !title.contains("TTT 콜렉팅북")) {
                     String type = GoodsType.TTT.name();
-                    createEvent(theater, eventList, title, thumbnail, startDate, endDate, eventLink, type);
+                    String theater = EventPage.CGV.name();
+                    Event event = new Event(title, type, theater, startDate, endDate, eventLink, thumbnail);
+                    eventList.add(event);
                 }
             }
         }
     }
 
     // TODO: URL 세팅 수정
-    private void LotteCinema(String theater, List<Event> eventList) {
+    private void lotteCinema(List<Event> eventList) {
+        driver.get(EventPage.LOTTE.getDesc());
         List<WebElement> webElements = driver.findElements(By.cssSelector("ul.img_lst_wrap > li"));
 
         for (WebElement e : webElements) {
@@ -106,26 +105,25 @@ public class EventCrawler {
                 String startDate = dueDate.get(0);
                 String endDate = dueDate.get(1);
 
-//                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", e.findElement(By.cssSelector("a")));
-//                String eventLink = driver.getCurrentUrl();
-//                driver.navigate().back();
+                /*
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", e.findElement(By.cssSelector("a")));
+                String eventLink = driver.getCurrentUrl();
+                driver.navigate().back();
 
-//                WebElement specificPage = e.findElement(By.cssSelector("a"));
-//                specificPage.click();
-//                String eventLink = driver.getCurrentUrl();
-//                driver.navigate().back();
+                WebElement specificPage = e.findElement(By.cssSelector("a"));
+                specificPage.click();
+                String eventLink = driver.getCurrentUrl();
+                driver.navigate().back();
+                 */
 
                 String eventLink = EventPage.LOTTE.getDesc();
                 String type = GoodsType.AC.name();
 
-                createEvent(theater, eventList, title, thumbnail, startDate, endDate, eventLink, type);
+                String theater = EventPage.LOTTE.name();
+                Event event = new Event(title, type, theater, startDate, endDate, eventLink, thumbnail);
+                eventList.add(event);
             }
         }
-    }
-
-    private static void createEvent(String theater, List<Event> eventList, String title, String thumbnail, String startDate, String endDate, String eventLink, String type) {
-        Event event = new Event(title, type, theater, startDate, endDate, eventLink, thumbnail);
-        eventList.add(event);
     }
 
     private ArrayList<String> splitDueDate(String dueDate) {

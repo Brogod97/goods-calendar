@@ -5,6 +5,7 @@ import goodscalendar.goodscalendar.respository.EventRepository;
 import goodscalendar.goodscalendar.crawler.EventCrawler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -20,12 +21,13 @@ public class EventService {
     private final EventRepository eventRepository;
     private final EventCrawler eventCrawler;
 
-    @Transactional
-    public void saveEvent(String url, String theater) {
+    @Scheduled(cron = "0 0 * * * *")
+    public void saveEvent() {
+        List<Event> eventList = eventCrawler.process();
 
-        List<Event> eventList = eventCrawler.process(url, theater);
         for (Event event : eventList) {
-            if (eventRepository.findByTitleContaining(event.getTitle()).isEmpty()) {
+            String eventTitle = event.getTitle();
+            if (eventRepository.findByTitleContaining(eventTitle).isEmpty()) {
                 Event savedEvent = eventRepository.save(event);
                 log.info("savedEvent={}", savedEvent);
             }
