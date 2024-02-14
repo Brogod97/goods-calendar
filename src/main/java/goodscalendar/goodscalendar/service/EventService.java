@@ -23,14 +23,18 @@ public class EventService {
 
     @Scheduled(cron = "0 0 * * * *")
     public void saveEvent() {
-        List<Event> eventList = eventCrawler.process();
+        try {
+            List<Event> eventList = eventCrawler.process();
 
-        for (Event event : eventList) {
-            String eventTitle = event.getTitle();
-            if (eventRepository.findByTitleContaining(eventTitle).isEmpty()) {
-                Event savedEvent = eventRepository.save(event);
-                log.info("savedEvent={}", savedEvent);
+            for (Event event : eventList) {
+                String eventTitle = event.getTitle();
+                if (eventRepository.findByTitleContaining(eventTitle).isEmpty()) {
+                    Event savedEvent = eventRepository.save(event);
+                    log.info("savedEvent={}", savedEvent);
+                }
             }
+        } catch (Exception e) {
+            log.error("이벤트 크롤링 중 에러가 발생했습니다", e);
         }
     }
 

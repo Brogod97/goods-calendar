@@ -20,29 +20,18 @@ public class EventCrawler {
     private WebDriver driver;
     private static final String driverPath = "driver/chromedriver.exe";
 
-    @PostConstruct
-    void driverInit() {
-        System.setProperty("webdriver.chrome.driver", driverPath);
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
-        driver = new ChromeDriver(options);
-        log.info("Create Driver");
-    }
-
-    public List<Event> process() {
-
+    public List<Event> process() throws Exception {
         List<Event> eventList = new ArrayList<>();
 
         megabox(eventList);
         cgv(eventList);
         lotteCinema(eventList);
-        closeDriver();
 
         return eventList;
     }
 
     private void megabox(List<Event> eventList) {
-        driver.get(EventPage.MEGABOX.getDesc());
+        driverInit(EventPage.MEGABOX.getDesc());
         List<WebElement> webElements = driver.findElements(By.cssSelector("div.event-list > ul > li"));
 
         for (WebElement e : webElements) {
@@ -63,10 +52,11 @@ public class EventCrawler {
                 eventList.add(event);
             }
         }
+        closeDriver();
     }
 
     private void cgv(List<Event> eventList) {
-        driver.get(EventPage.CGV.getDesc());
+        driverInit(EventPage.CGV.getDesc());
         List<WebElement> webElements = driver.findElements(By.cssSelector("ul.sect-evt-item-list > li"));
 
         for (WebElement e : webElements) {
@@ -88,11 +78,12 @@ public class EventCrawler {
                 }
             }
         }
+        closeDriver();
     }
 
     // TODO: URL 세팅 수정
     private void lotteCinema(List<Event> eventList) {
-        driver.get(EventPage.LOTTE.getDesc());
+        driverInit(EventPage.LOTTE.getDesc());
         List<WebElement> webElements = driver.findElements(By.cssSelector("ul.img_lst_wrap > li"));
 
         for (WebElement e : webElements) {
@@ -124,6 +115,7 @@ public class EventCrawler {
                 eventList.add(event);
             }
         }
+        closeDriver();
     }
 
     private ArrayList<String> splitDueDate(String dueDate) {
@@ -134,6 +126,15 @@ public class EventCrawler {
         result.add(split[1].substring(0, 10));
 
         return result;
+    }
+
+    void driverInit(String url) {
+        System.setProperty("webdriver.chrome.driver", driverPath);
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        driver = new ChromeDriver(options);
+        log.info("Create Driver");
+        driver.get(url);
     }
 
     private void closeDriver() {
