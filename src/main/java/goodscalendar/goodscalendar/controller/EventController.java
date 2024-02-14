@@ -2,6 +2,7 @@ package goodscalendar.goodscalendar.controller;
 
 import goodscalendar.goodscalendar.domain.Event;
 import goodscalendar.goodscalendar.domain.EventPage;
+import goodscalendar.goodscalendar.service.EventSearchCond;
 import goodscalendar.goodscalendar.service.EventService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,24 +39,7 @@ public class EventController {
     }
 
     @GetMapping("events")
-    public List<Event> getEventList() {
-        return eventService.getEventList();
-    }
-
-    @GetMapping("events/date")
-    public List<Event> getEventListByDate(@RequestParam String year, @RequestParam String month) {
-        return eventService.getEventListByDate(year, month);
-    }
-
-    @GetMapping("events/type")
-    public List<Event> getEventListByType(@RequestParam(name="type") String[] typeList) {
-        List<Event> eventList = eventService.getEventListByType(typeList);
-
-        return eventList;
-    }
-
-    @GetMapping("events/search")
-    public List<Event> getEventListByTitle(@RequestParam String inputValue) {
-        return eventService.getEventListByTitle(inputValue);
+    public List<Event> getEventList(@ModelAttribute("eventSearch") EventSearchCond eventSearchCond) {
+        return eventService.getEventList(eventSearchCond);
     }
 }

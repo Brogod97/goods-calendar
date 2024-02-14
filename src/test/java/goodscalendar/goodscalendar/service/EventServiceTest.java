@@ -1,6 +1,5 @@
 package goodscalendar.goodscalendar.service;
 
-import goodscalendar.goodscalendar.crawler.EventCrawler;
 import goodscalendar.goodscalendar.domain.Event;
 import goodscalendar.goodscalendar.domain.EventPage;
 import goodscalendar.goodscalendar.respository.EventRepository;
@@ -26,6 +25,9 @@ class EventServiceTest {
     @Autowired
     private EventRepository eventRepository;
 
+    /**
+     * 영화관 별 크롤링 이벤트 저장 테스트
+     */
     @Test
     @DisplayName("씨지비 이벤트 크롤링 저장")
     void cgv() {
@@ -53,18 +55,35 @@ class EventServiceTest {
         service.saveEvent(url, theater);
     }
 
+    /**
+     * DB에 저장된 데이터 조회 테스트
+     */
     @Test
     @DisplayName("모든 이벤트 조회")
     void getEventList() {
         //given
-        Event event = new Event("Spring Data JPA Test", "thumbnail", "theater", "2024-02-07", "2024-02-07", "link", "thumbnail");
-        eventRepository.save(event);
+        Event event1 = new Event("getEventListByType Test1", "OT", "theater", "2021-01-05", "2024-02-07", "link", "thumbnail");
+        Event event2 = new Event("getEventListByType Test2", "OT", "theater", "2021-01-06", "2024-02-07", "link", "thumbnail");
+        Event event3 = new Event("getEventListByType Test3", "TTT", "theater", "2021-02-07", "2024-02-07", "link", "thumbnail");
+        Event event4 = new Event("getEventListByType Test4", "AC", "theater", "2021-02-07", "2024-02-07", "link", "thumbnail");
+        Event event5 = new Event("getEventListByType Test5", "AC", "theater", "2021-02-07", "2024-02-07", "link", "thumbnail");
+
+        eventRepository.save(event1);
+        eventRepository.save(event2);
+        eventRepository.save(event3);
+        eventRepository.save(event4);
+        eventRepository.save(event5);
+
+        EventSearchCond eventSearchCond = new EventSearchCond();
 
         //when
-        List<Event> findEvent = service.getEventList();
+        List<Event> result = service.getEventList(eventSearchCond);
 
         //then
-        Assertions.assertThat(findEvent).hasSize(1);
+        for (Event e : result) {
+            log.info("result={}", e);
+        }
+        Assertions.assertThat(result).hasSize(5);
     }
 
     @Test
@@ -79,10 +98,17 @@ class EventServiceTest {
         eventRepository.save(event2);
         eventRepository.save(event3);
 
+        EventSearchCond eventSearchCond = new EventSearchCond();
+        eventSearchCond.setYear("2021");
+        eventSearchCond.setMonth("01");
+
         //when
-        List<Event> result = service.getEventListByDate("2021", "01");
+        List<Event> result = service.getEventList(eventSearchCond);
 
         //then
+        for (Event e : result) {
+            log.info("result={}", e);
+        }
         assertThat(result.size()).isEqualTo(2);
     }
 
@@ -102,9 +128,11 @@ class EventServiceTest {
         eventRepository.save(event4);
         eventRepository.save(event5);
 
+        EventSearchCond eventSearchCond = new EventSearchCond();
+        eventSearchCond.setTypes(new String[]{"AC", "TTT"});
+
         //when
-        String[] types = new String[]{"AC", "TTT"};
-        List<Event> result = service.getEventListByType(types);
+        List<Event> result = service.getEventList(eventSearchCond);
 
         //then
         assertThat(result.size()).isEqualTo(3);
@@ -122,8 +150,11 @@ class EventServiceTest {
         eventRepository.save(event2);
         eventRepository.save(event3);
 
+        EventSearchCond eventSearchCond = new EventSearchCond();
+        eventSearchCond.setInputValue("분노");
+
         //when
-        List<Event> resultList = service.getEventListByTitle("분노");
+        List<Event> resultList = service.getEventList(eventSearchCond);
 
         //then
         assertThat(resultList).hasSize(2);
