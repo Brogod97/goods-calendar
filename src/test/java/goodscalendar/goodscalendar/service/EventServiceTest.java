@@ -49,15 +49,12 @@ class EventServiceTest {
         eventRepository.save(event4);
         eventRepository.save(event5);
 
+        //when
         EventSearchCond eventSearchCond = new EventSearchCond();
 
-        //when
         List<Event> result = service.getEventList(eventSearchCond);
 
         //then
-        for (Event e : result) {
-            log.info("result={}", e);
-        }
         Assertions.assertThat(result).hasSize(5);
     }
 
@@ -73,17 +70,14 @@ class EventServiceTest {
         eventRepository.save(event2);
         eventRepository.save(event3);
 
+        //when
         EventSearchCond eventSearchCond = new EventSearchCond();
         eventSearchCond.setYear("2021");
         eventSearchCond.setMonth("01");
 
-        //when
         List<Event> result = service.getEventList(eventSearchCond);
 
         //then
-        for (Event e : result) {
-            log.info("result={}", e);
-        }
         assertThat(result.size()).isEqualTo(2);
     }
 
@@ -103,10 +97,10 @@ class EventServiceTest {
         eventRepository.save(event4);
         eventRepository.save(event5);
 
+        //when
         EventSearchCond eventSearchCond = new EventSearchCond();
         eventSearchCond.setTypes(new String[]{"AC", "TTT"});
 
-        //when
         List<Event> result = service.getEventList(eventSearchCond);
 
         //then
@@ -114,7 +108,7 @@ class EventServiceTest {
     }
 
     @Test
-    @DisplayName("검색 기능 시 Title로 검색")
+    @DisplayName("검색 기능 시 영화명으로 검색")
     void getEventListByTitle() {
         //given
         Event event1 = new Event("라푼젤", "OT", "theater", "2021-01-05", "2024-02-07", "link", "thumbnail");
@@ -125,10 +119,10 @@ class EventServiceTest {
         eventRepository.save(event2);
         eventRepository.save(event3);
 
+        //when
         EventSearchCond eventSearchCond = new EventSearchCond();
         eventSearchCond.setInputValue("분노");
 
-        //when
         List<Event> resultList = service.getEventList(eventSearchCond);
 
         //then
