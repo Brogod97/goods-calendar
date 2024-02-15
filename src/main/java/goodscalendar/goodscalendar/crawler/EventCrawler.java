@@ -3,7 +3,6 @@ package goodscalendar.goodscalendar.crawler;
 import goodscalendar.goodscalendar.domain.Event;
 import goodscalendar.goodscalendar.domain.EventPage;
 import goodscalendar.goodscalendar.domain.GoodsType;
-import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -34,20 +33,22 @@ public class EventCrawler {
         driverInit(EventPage.MEGABOX.getDesc());
         List<WebElement> webElements = driver.findElements(By.cssSelector("div.event-list > ul > li"));
 
-        for (WebElement e : webElements) {
-            String title = e.findElement(By.cssSelector("a > p.tit")).getText();
-            String thumbnail = e.findElement(By.cssSelector("a > p.img > img")).getAttribute("src");
+        for (WebElement li : webElements) {
+            String title = li.findElement(By.cssSelector("a > p.tit")).getText();
 
-            String eventId = e.findElement(By.cssSelector("a")).getAttribute("data-no");
-            String eventLink = "https://www.megabox.co.kr/event/detail?eventNo=" + eventId;
-
-            ArrayList<String> dueDate = splitDueDate(e.findElement(By.cssSelector("a > p.date")).getText());
-            String startDate = dueDate.get(0);
-            String endDate = dueDate.get(1);
-
-            if (title.contains("오리지널 티켓") && !title.contains("오리지널 티켓북")) {
+            boolean isOriginalTicket = title.contains("오리지널 티켓") && !title.contains("오리지널 티켓북");
+            if (isOriginalTicket) {
                 String type = GoodsType.OT.name();
                 String theater = EventPage.MEGABOX.name();
+                String thumbnail = li.findElement(By.cssSelector("a > p.img > img")).getAttribute("src");
+
+                String eventId = li.findElement(By.cssSelector("a")).getAttribute("data-no");
+                String eventLink = "https://www.megabox.co.kr/event/detail?eventNo=" + eventId;
+
+                String[] dueDate = li.findElement(By.cssSelector("a > p.date")).getText().split(" ~ ");
+                String startDate = dueDate[0];
+                String endDate = dueDate[1];
+
                 Event event = new Event(title, type, theater, startDate, endDate, eventLink, thumbnail);
                 eventList.add(event);
             }
@@ -57,25 +58,42 @@ public class EventCrawler {
 
     private void cgv(List<Event> eventList) {
         driverInit(EventPage.CGV.getDesc());
+
+        WebElement moreBtn = driver.findElement(By.cssSelector("button.btn-item-more"));
+        while(moreBtn.isDisplayed()) {
+            try {
+                moreBtn.click();
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         List<WebElement> webElements = driver.findElements(By.cssSelector("ul.sect-evt-item-list > li"));
+        for (WebElement li : webElements) {
+            String title = li.findElement(By.cssSelector("a > div.evt-desc > p.txt1")).getText();
 
-        for (WebElement e : webElements) {
-            String title = e.findElement(By.cssSelector("a > div.evt-desc > p.txt1")).getText();
-            String thumbnail = e.findElement(By.cssSelector("a > div.evt-thumb > img")).getAttribute("src");
-            String eventLink = e.findElement(By.cssSelector("a")).getAttribute("href");
+            boolean isFilmMark = title.contains("필름마크") && !title.contains("필름마크북");
+            boolean isTTT = title.contains("TTT") && !title.contains("TTT 콜렉팅북");
+            if ( isFilmMark || isTTT) {
+                String type = "";
+                String theater = EventPage.CGV.name();
+                String thumbnail = li.findElement(By.cssSelector("a > div.evt-thumb > img")).getAttribute("src");
+                String eventLink = li.findElement(By.cssSelector("a")).getAttribute("href");
+                String[] dueDate = li.findElement(By.cssSelector("a > div.evt-desc > p.txt2")).getText().split("~");
+                String startDate = dueDate[0];
+                String endDate = dueDate[1];
 
-            String date = e.findElement(By.cssSelector("a > div.evt-desc > p.txt2")).getText();
-            if (!date.isBlank()) {
-                ArrayList<String> dueDate = splitDueDate(date);
-                String startDate = dueDate.get(0);
-                String endDate = dueDate.get(1);
-
-                if (title.contains("TTT") && !title.contains("TTT 콜렉팅북")) {
-                    String type = GoodsType.TTT.name();
-                    String theater = EventPage.CGV.name();
-                    Event event = new Event(title, type, theater, startDate, endDate, eventLink, thumbnail);
-                    eventList.add(event);
+                if(isFilmMark) {
+                    type = GoodsType.FM.name();
                 }
+
+                if(isTTT) {
+                    type = GoodsType.TTT.name();
+                }
+
+                Event event = new Event(title, type, theater, startDate, endDate, eventLink, thumbnail);
+                eventList.add(event);
             }
         }
         closeDriver();
@@ -84,17 +102,47 @@ public class EventCrawler {
     // TODO: URL 세팅 수정
     private void lotteCinema(List<Event> eventList) {
         driverInit(EventPage.LOTTE.getDesc());
-        List<WebElement> webElements = driver.findElements(By.cssSelector("ul.img_lst_wrap > li"));
 
+        // 하단 배너 닫기
+        WebElement banner = driver.findElement(By.cssSelector("div.appbannermain_wrap.fixed"));
+        if(banner.isDisplayed()) {
+            WebElement closeButton = banner.findElement(By.cssSelector("button.btn_close"));
+            closeButton.click();
+        }
+
+        // 더보기 버튼 클릭
+        WebElement moreBtn;
+        while (true) {
+            try {
+                moreBtn = driver.findElement(By.cssSelector("button.btn_txt_more"));
+            } catch (org.openqa.selenium.NoSuchElementException e) {
+                break;
+            }
+
+            if(moreBtn != null && moreBtn.isDisplayed()){
+                try {
+                    moreBtn.click();
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                break;
+            }
+        }
+
+        // 이벤트 크롤링
+        List<WebElement> webElements = driver.findElements(By.cssSelector("ul.img_lst_wrap > li"));
         for (WebElement e : webElements) {
             String title = e.findElement(By.cssSelector("a > img")).getAttribute("alt");
 
-            if (title.contains("아트카드")) {
+            boolean isArtCard = title.contains("아트카드") && !title.contains("아트카드북");
+            if (isArtCard) {
                 String thumbnail = e.findElement(By.cssSelector("a > img")).getAttribute("src");
 
-                ArrayList<String> dueDate = splitDueDate(e.findElement(By.cssSelector("a > div.itm_date")).getText());
-                String startDate = dueDate.get(0);
-                String endDate = dueDate.get(1);
+                String[] dueDate = e.findElement(By.cssSelector("a > div.itm_date")).getText().split(" ~ ");
+                String startDate = dueDate[0];
+                String endDate = dueDate[1];
 
                 /*
                 ((JavascriptExecutor) driver).executeScript("arguments[0].click();", e.findElement(By.cssSelector("a")));
@@ -109,8 +157,8 @@ public class EventCrawler {
 
                 String eventLink = EventPage.LOTTE.getDesc();
                 String type = GoodsType.AC.name();
-
                 String theater = EventPage.LOTTE.name();
+
                 Event event = new Event(title, type, theater, startDate, endDate, eventLink, thumbnail);
                 eventList.add(event);
             }
@@ -118,21 +166,12 @@ public class EventCrawler {
         closeDriver();
     }
 
-    private ArrayList<String> splitDueDate(String dueDate) {
-        ArrayList<String> result = new ArrayList<>();
-
-        String[] split = dueDate.split("~");
-        result.add(split[0].substring(0, 10));
-        result.add(split[1].substring(0, 10));
-
-        return result;
-    }
-
     void driverInit(String url) {
         System.setProperty("webdriver.chrome.driver", driverPath);
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
         driver = new ChromeDriver(options);
+        driver = new ChromeDriver();
         log.info("Create Driver");
         driver.get(url);
     }
