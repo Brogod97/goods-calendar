@@ -1,31 +1,36 @@
 package goodscalendar.goodscalendar.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.*;
 
-import java.util.Date;
-
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
+@Entity
 public class Event {
-    long id;
-    String title;
-    String thumbnail;
-    String type;
-    String theater;
-    String link;
-    String startDate;
-    String endDate;
 
-    public Event(String title, String thumbnail, String type, String theater, String link, String startDate, String endDate) {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String title;
+    private String goodsType;
+    private String theater;
+    private String startDate;
+    private String endDate;
+    private String link;
+    private String thumbnail;
+
+    public Event() {
+    }
+
+    public Event(String title, String goodsType, String theater, String startDate, String endDate, String link, String thumbnail) {
         this.title = title;
-        this.thumbnail = thumbnail;
-        this.type = type;
+        this.goodsType = goodsType;
         this.theater = theater;
-        this.link = link;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.link = link;
+        this.thumbnail = thumbnail;
     }
 }

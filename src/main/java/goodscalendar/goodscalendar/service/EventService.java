@@ -5,45 +5,52 @@ import goodscalendar.goodscalendar.respository.EventRepository;
 import goodscalendar.goodscalendar.crawler.EventCrawler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class EventService {
 
-    private final EventRepository mysqlEventRepository;
+    private final EventRepository eventRepository;
     private final EventCrawler eventCrawler;
 
-    @Transactional
-    public void saveEvent(String url, String theater) {
+    @Scheduled(cron = "0 0 * * * *")
+    public void saveEvent() {
+        try {
+            List<Event> eventList = eventCrawler.process();
 
-        List<Event> eventList = eventCrawler.process(url, theater);
-        for (Event event : eventList) {
-            if(mysqlEventRepository.findByTitle(event.getTitle()).isEmpty()) {
-                Event savedEvent = mysqlEventRepository.save(event);
-                log.info("savedEvent={}", savedEvent);
+            for (Event event : eventList) {
+                String eventTitle = event.getTitle();
+                if (eventRepository.findByTitleContaining(eventTitle).isEmpty()) {
+                    Event savedEvent = eventRepository.save(event);
+                    log.info("savedEvent={}", savedEvent);
+                }
             }
+        } catch (Exception e) {
+            log.error("이벤트 크롤링 중 에러가 발생했습니다", e);
         }
     }
 
-    public List<Event> getEventList() {
-        return mysqlEventRepository.findAll();
-    }
+    public List<Event> getEventList(EventSearchCond eventSearchCond) {
+        String searchValue = eventSearchCond.getInputValue();
+        String year = eventSearchCond.getYear();
+        String month = eventSearchCond.getMonth();
+        String[] types = eventSearchCond.getTypes();
 
-    public List<Event> getEventListByDate(String year, String month){
-        return mysqlEventRepository.findByDate(year, month);
+        if (StringUtils.hasText(searchValue)) {
+            return eventRepository.findByTitleContaining(searchValue);
+        } else if (StringUtils.hasText(year) && StringUtils.hasText(month)) {
+            return eventRepository.findByYearAndMonth(year, month);
+        } else if (types != null) {
+            return eventRepository.findByTypes(types);
+        }
+        return eventRepository.findAll();
     }
-
-    public List<Event> getEventListByType(List<String> typeList) {
-        return mysqlEventRepository.findByType(typeList);
-    }
-
-    public List<Event> getEventListByTitle(String inputValue) {
-        return mysqlEventRepository.findByTitle(inputValue);
-    }
-
 }
