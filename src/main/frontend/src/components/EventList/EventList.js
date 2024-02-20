@@ -82,10 +82,11 @@ const EventList = ({ events, searchValue }) => {
                 </div>
                 <div className="event_info">
                   <div className="event_card">
-                    <p className={event.type}>
-                      {event.type === "AC" && "아트카드"}
-                      {event.type === "OT" && "오리지널 티켓"}
-                      {event.type === "TTT" && "TTT"}
+                    <p className={event.goodsType}>
+                      {event.goodsType === "AC" && "아트카드"}
+                      {event.goodsType === "OT" && "오리지널 티켓"}
+                      {event.goodsType === "TTT" && "TTT"}
+                      {event.goodsType === "FM" && "필름마크"}
                     </p>
                   </div>
                   <div className="event_title">

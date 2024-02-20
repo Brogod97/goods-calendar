@@ -3,5 +3,5 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 80px; /* 예시로 설정한 헤더의 높이, 필요에 따라 조절하세요 */
+  height: 80px;
 }

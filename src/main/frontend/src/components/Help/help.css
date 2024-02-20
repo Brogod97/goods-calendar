@@ -12,18 +12,16 @@
   width: 86px;
   height: 66px;
   background-color: white;
-
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
   align-items: center;
 }
 
 .modal p {
-  height: 20px;
+  line-height: 22px;
   text-align: left;
   font-size: 10px;
-  margin-top: -4px;
-  margin-left: 12px;
+  padding: 0 0 0 12px;
 }
 
 .mega {
