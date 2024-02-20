@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Popup from "../Popup/Popup";
+import "./DateSelector.css";
 
 const DateSelector = ({ onConfirm, selectedDate }) => {
   const [isPopupOpen, setPopupOpen] = useState(false);
@@ -37,22 +38,6 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
     onConfirm(selectedYear, selectedMonth, defaultdate);
     closePopup();
   };
-  const testStyle = {
-    overflowY: "overlay",
-    height: "100px",
-    width: "100px",
-  };
-  const listItemStyle = {
-    display: "flex",
-    border: "0px",
-    marginBottom: "8px",
-    borderRadius: "4px",
-    height: "20px",
-    justifyContent: "center",
-  };
-  const flex = {
-    display: "flex",
-  };
 
   return (
     <div>
@@ -61,37 +46,39 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
       </div>
       {isPopupOpen && (
         <Popup onClose={closePopup}>
-          <div style={flex}>
-            <p>년</p>
-            <p>월</p>
-          </div>
-          <div style={flex}>
-            <ul style={testStyle}>
-              {Array.from({ length: 11 }, (_, i) => i + 2020).map((year) => (
-                <li
-                  key={year}
-                  onClick={() => handleYearClick(year)}
-                  style={listItemStyle}
-                >
-                  {year}
-                </li>
-              ))}
-            </ul>
-
-            <ul style={testStyle}>
-              {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
-                <li
-                  key={month}
-                  onClick={() => handleMonthClick(month)}
-                  style={listItemStyle}
-                >
-                  {month}
-                </li>
-              ))}
-            </ul>
-          </div>
           <div>
-            <button onClick={handleConfirm}>확인</button>
+            <div className="selector">
+              <p>년</p>
+              <p>월</p>
+            </div>
+            <div className="selector">
+              <ul className="testStyle">
+                {Array.from({ length: 11 }, (_, i) => i + 2019).map((year) => (
+                  <li
+                    key={year}
+                    onClick={() => handleYearClick(year)}
+                    className="listItemStyle"
+                  >
+                    {year}
+                  </li>
+                ))}
+              </ul>
+
+              <ul className="testStyle">
+                {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
+                  <li
+                    key={month}
+                    onClick={() => handleMonthClick(month)}
+                    className="listItemStyle"
+                  >
+                    {month}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <button onClick={handleConfirm}>완료</button>
+            </div>
           </div>
         </Popup>
       )}
