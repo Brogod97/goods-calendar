@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 import Calendar from "react-calendar";
 import moment from "moment";
 import axios from "axios";
@@ -61,13 +62,22 @@ function App() {
     setSearchValue(searchValue);
   };
 
+  const todayCursor = () => {
+    setSelectedDate(new Date());
+  };
+
   return (
     <div>
-      <Header />
+      <Router>
+        <Header />
+      </Router>
       <div className="contents" style={{ display: "flex" }}>
         <DateSelector onConfirm={handleConfirm} selectedDate={selectedDate} />
         <Help />
         <Search onSearch={handleSearch} />
+        <div className="today">
+          <button onClick={todayCursor}>오늘</button>
+        </div>
       </div>
       <div className="cal">
         <Calendar
