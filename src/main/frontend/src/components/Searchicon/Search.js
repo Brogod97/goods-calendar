@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Searchpage from "../Search/Searchpage";
-import "./search.css";
+import "./search.scss";
 import Searchicon from "./search.svg";
 
 const Search = ({ onSearch }) => {

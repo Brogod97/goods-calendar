@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Popup from "../Popup/Popup";
-import "./DateSelector.css";
+import "./DateSelector.scss";
 
 const DateSelector = ({ onConfirm, selectedDate }) => {
   const [isPopupOpen, setPopupOpen] = useState(false);
@@ -8,6 +8,8 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
   const [selectedMonth, setSelectedMonth] = useState(
     selectedDate.getMonth() + 1
   );
+  const [selectedYearIndex, setSelectedYearIndex] = useState(null);
+  const [selectedMonthIndex, setSelectedMonthIndex] = useState(null);
   const defaultdate = 1;
 
   useEffect(() => {
@@ -20,64 +22,76 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
   };
 
   const closePopup = () => {
-    onConfirm(selectedYear, selectedMonth, defaultdate);
     setPopupOpen(false);
   };
 
-  const handleYearClick = (year) => {
+  const handleYearClick = (year, index) => {
     setSelectedYear(year);
+    setSelectedYearIndex(index);
     openPopup();
   };
 
-  const handleMonthClick = (month) => {
+  const handleMonthClick = (month, index) => {
     setSelectedMonth(month);
+    setSelectedMonthIndex(index);
     openPopup();
   };
 
   const handleConfirm = () => {
     onConfirm(selectedYear, selectedMonth, defaultdate);
+    setSelectedYearIndex(null); // 선택된 인덱스 초기화
+    setSelectedMonthIndex(null); // 선택된 인덱스 초기화
     closePopup();
   };
 
   return (
     <div>
-      <div onClick={openPopup}>
+      <div className="relative" onClick={openPopup}>
         {selectedYear}년 {selectedMonth}월 ⌵
       </div>
       {isPopupOpen && (
         <Popup onClose={closePopup}>
-          <div>
-            <div className="selector">
-              <p>년</p>
+          <div className="">
+            <div className="flex py-2 justify-around items-center border-b border-gray-300">
+              <p>년도</p>
               <p>월</p>
             </div>
-            <div className="selector">
+            <div className="flex py-2 justify-around items-center">
               <ul className="testStyle">
-                {Array.from({ length: 11 }, (_, i) => i + 2019).map((year) => (
-                  <li
-                    key={year}
-                    onClick={() => handleYearClick(year)}
-                    className="listItemStyle"
-                  >
-                    {year}
-                  </li>
-                ))}
+                {Array.from({ length: 11 }, (_, i) => i + 2019).map(
+                  (year, index) => (
+                    <li
+                      key={year}
+                      onClick={() => handleYearClick(year, index)}
+                      className={`listItemStyle ${selectedYearIndex === index ? "selected" : ""}`}
+                    >
+                      {year}
+                    </li>
+                  )
+                )}
               </ul>
 
               <ul className="testStyle">
-                {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
-                  <li
-                    key={month}
-                    onClick={() => handleMonthClick(month)}
-                    className="listItemStyle"
-                  >
-                    {month}
-                  </li>
-                ))}
+                {Array.from({ length: 12 }, (_, i) => i + 1).map(
+                  (month, index) => (
+                    <li
+                      key={month}
+                      onClick={() => handleMonthClick(month, index)}
+                      className={`listItemStyle ${selectedMonthIndex === index ? "selected" : ""}`}
+                    >
+                      {month}
+                    </li>
+                  )
+                )}
               </ul>
             </div>
-            <div>
-              <button onClick={handleConfirm}>완료</button>
+            <div className="flex justify-center">
+              <button
+                className="px-28 py-1 rounded-lg border text-white bg-black border-white"
+                onClick={handleConfirm}
+              >
+                완료
+              </button>
             </div>
           </div>
         </Popup>

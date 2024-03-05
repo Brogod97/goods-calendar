@@ -1,13 +1,27 @@
 // Popup.js
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import "./popup.scss";
 
 const Popup = ({ onClose, children }) => {
-  return (
-    <div className="popup">
-      <div className="popup-content">
-        {/* 팝업 닫기 버튼 */}
-        <button onClick={onClose}>X</button>
+  const popupRef = useRef(null);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
+
+  return (
+    <div className="popup size-72 absolute bg-white " ref={popupRef}>
+      <div className="popup-content px-4 ">
         {/* 년도와 월 선택 드롭다운 */}
         {children}
       </div>

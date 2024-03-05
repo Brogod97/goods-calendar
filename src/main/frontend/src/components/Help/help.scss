@@ -1,3 +1,5 @@
+@import "../../color.scss";
+
 .helpicon {
   width: 16px;
   height: 16px;
@@ -27,20 +29,20 @@
 .mega {
   width: 8px;
   height: 8px;
-  background-color: #362462;
+  background-color: $mega;
   display: inline-block;
 }
 .lotte {
   width: 8px;
   height: 8px;
-  background-color: #ee870e;
+  background-color: $lotte;
   display: inline-block;
 }
 
 .cgv {
   width: 8px;
   height: 8px;
-  background-color: #e42313;
+  background-color: $cgv;
   display: inline-block;
 }
 

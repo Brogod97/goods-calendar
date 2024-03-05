@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import filtericon from "../filter/filter.svg";
-import "./EventList.css";
+import "./EventList.scss";
 
 const EventList = ({ events, searchValue }) => {
   const [selectedFilters, setSelectedFilters] = useState([]);
@@ -31,8 +31,8 @@ const EventList = ({ events, searchValue }) => {
 
   return (
     <div>
-      <div className="dotted-border"></div>
-      <div className="header">
+      <div className="border-dotted border border-gray-300"></div>
+      <div className="flex justify-between items-center h-8 mt-4">
         <h4>이벤트 목록</h4>
         <div className="filtericon">
           <img src={filtericon} alt="filter" onClick={toggleFilterModal} />
@@ -70,17 +70,25 @@ const EventList = ({ events, searchValue }) => {
           )}
         </div>
       </div>
-      <ul>
+      <ul className="list-none p-0">
         {searchedEvents.map(
           (
             event // 검색된 이벤트만 매핑
           ) => (
-            <li key={event.id}>
-              <a href={event.link} target="_blank" rel="noopener noreferrer">
+            <li
+              className="flex border border-gray-300 rounded mb-2 h-20"
+              key={event.id}
+            >
+              <a
+                className="text-no-underline text-gray-700 flex w-full"
+                href={event.link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <div className="event_img">
                   <img src={event.thumbnail} alt="썸네일" />
                 </div>
-                <div className="event_info">
+                <div className="flex flex-col pt-3">
                   <div className="event_card">
                     <p className={event.goodsType}>
                       {event.goodsType === "AC" && "아트카드"}
