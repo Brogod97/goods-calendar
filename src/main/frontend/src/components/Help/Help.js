@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Helpicon from "./help.svg";
-import "./help.css";
+import "./help.scss";
 
 const Help = () => {
   const [isModalOpen, setModalOpen] = useState(false);

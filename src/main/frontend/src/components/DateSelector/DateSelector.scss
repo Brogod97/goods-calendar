@@ -1,6 +1,6 @@
 .testStyle {
   overflow-y: scroll;
-  height: 100px;
+  height: 180px;
   width: 100px;
   -ms-overflow-style: none; /* 인터넷 익스플로러 */
   scrollbar-width: none; /* 파이어폭스 */
@@ -11,8 +11,14 @@
   border: 0px;
   margin-bottom: 8px;
   border-radius: 4px;
-  height: 20px;
+  height: 30px;
   justify-content: center;
+}
+.listItemStyle:hover {
+  background-color: lightgrey;
+}
+.selected {
+  background-color: lightgrey;
 }
 
 .selector {

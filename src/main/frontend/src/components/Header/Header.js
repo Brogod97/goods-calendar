@@ -1,5 +1,5 @@
 import React from "react";
-import "./header.css";
+// import "./header.scss";
 import MySvg from "./logo.svg";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -21,12 +21,14 @@ const Header = () => {
   };
 
   return (
-    <header>
-      <img src={MySvg} alt="Logo" onClick={handleLogoClick} />
-      <button type="button" onClick={handleClick}>
-        이벤트 저장
-      </button>
-      {/*  임시 버튼  */}
+    <header className="border-b border-gray-500 flex min-h-20 justify-center px-4 py-3">
+      <div>
+        <img src={MySvg} alt="Logo" onClick={handleLogoClick} />
+        <button type="button" onClick={handleClick}>
+          이벤트 저장
+        </button>
+        {/*  임시 버튼  */}
+      </div>
     </header>
   );
 };

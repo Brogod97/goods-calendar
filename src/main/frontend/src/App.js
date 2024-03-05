@@ -3,8 +3,8 @@ import { BrowserRouter as Router } from "react-router-dom";
 import Calendar from "react-calendar";
 import moment from "moment";
 import axios from "axios";
-import "./Calendar.css";
-import "./App.css";
+import "./Calendar.scss";
+import "./App.scss";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import DateSelector from "./components/DateSelector/DateSelector";
@@ -71,17 +71,22 @@ function App() {
       <Router>
         <Header />
       </Router>
-      <div className="contents" style={{ display: "flex" }}>
+      <div className="flex mt-7 mb-3 px-4">
         <DateSelector onConfirm={handleConfirm} selectedDate={selectedDate} />
+        <div className="pl-2">
+          <button
+            className="px-2 rounded-lg border border-gray-200"
+            onClick={todayCursor}
+          >
+            오늘
+          </button>
+        </div>
         <Help />
         <Search onSearch={handleSearch} />
-        <div className="today">
-          <button onClick={todayCursor}>오늘</button>
-        </div>
       </div>
-      <div className="cal">
+      <div className="flex justify-center mb-5 px-4">
         <Calendar
-          locale="en"
+          locale="kr"
           calendarType="US"
           onChange={handleCalendarChange}
           value={selectedDate}
@@ -98,7 +103,7 @@ function App() {
               html.push(
                 <div
                   key={`cgv-${moment(date).format("YYYY-MM-DD")}`}
-                  className="dotCgv"
+                  className="dot dotCgv"
                 ></div>
               );
             }
@@ -106,7 +111,7 @@ function App() {
               html.push(
                 <div
                   key={`mega-${moment(date).format("YYYY-MM-DD")}`}
-                  className="dotMega"
+                  className="dot dotMega"
                 ></div>
               );
             }
@@ -116,12 +121,13 @@ function App() {
               html.push(
                 <div
                   key={`lotte-${moment(date).format("YYYY-MM-DD")}`}
-                  className="dotLotte"
+                  className="dot dotLotte"
                 ></div>
               );
             }
             return (
-              <div className="absoluteDiv">
+              <div className="relative flex justify-center items-center">
+                <div className="addrHover"></div>
                 <div className="dotDiv">{html}</div>
               </div>
             );
