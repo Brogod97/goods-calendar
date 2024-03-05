@@ -1,5 +1,7 @@
 @import "./color.scss";
 
+// FIXME: Tailwind CSS 반응형 적용하기
+// FIXME: dotDiv -> Tailwind CSS 방식으로 적용하기
 .dotDiv {
   display: flex;
   justify-content: center;
@@ -11,6 +13,7 @@
   body {
     margin: 0 5px;
   }
+  // FIXME: dot, dotCgv들 Tailwind로 적용하기
   .dot {
     width: 6px;
     height: 6px;

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Popup from "../Popup/Popup";
 import "./DateSelector.scss";
 
+// FIXME: DateSelector와 Popup은 별개의 컴포넌트가 아님
 const DateSelector = ({ onConfirm, selectedDate }) => {
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [selectedYear, setSelectedYear] = useState(selectedDate.getFullYear());
@@ -51,6 +52,7 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
       </div>
       {isPopupOpen && (
         <Popup onClose={closePopup}>
+          {/* FIXME: Popup 컴포넌트 내부에 children으로 전달하고 있는데, 꼭 필요한 경우가 아니라면, Popup 컴포넌트 내부에 작성하기 */}
           <div className="">
             <div className="flex py-2 justify-around items-center border-b border-gray-300">
               <p>년도</p>
@@ -63,7 +65,9 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
                     <li
                       key={year}
                       onClick={() => handleYearClick(year, index)}
-                      className={`listItemStyle ${selectedYearIndex === index ? "selected" : ""}`}
+                      className={`listItemStyle ${
+                        selectedYearIndex === index ? "selected" : ""
+                      }`}
                     >
                       {year}
                     </li>
@@ -77,7 +81,9 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
                     <li
                       key={month}
                       onClick={() => handleMonthClick(month, index)}
-                      className={`listItemStyle ${selectedMonthIndex === index ? "selected" : ""}`}
+                      className={`listItemStyle ${
+                        selectedMonthIndex === index ? "selected" : ""
+                      }`}
                     >
                       {month}
                     </li>
