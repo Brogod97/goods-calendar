@@ -1,3 +1,5 @@
+// FIXME: pages로 분리하기
+
 import React, { useState, useEffect } from "react";
 import "./Searchpage.scss";
 

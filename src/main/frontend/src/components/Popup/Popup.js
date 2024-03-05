@@ -1,3 +1,5 @@
+// FIXME: DateSelector와 Popup은 별개의 컴포넌트가 아님
+
 // Popup.js
 import React, { useEffect, useRef } from "react";
 import "./popup.scss";

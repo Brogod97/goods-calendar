@@ -34,6 +34,7 @@ const EventList = ({ events, searchValue }) => {
       <div className="border-dotted border border-gray-300"></div>
       <div className="flex justify-between items-center h-8 mt-4">
         <h4>이벤트 목록</h4>
+        {/* FIXME: Filter를 컴포넌트로 분리 */}
         <div className="filtericon">
           <img src={filtericon} alt="filter" onClick={toggleFilterModal} />
           {isFilterModalOpen && (
@@ -70,6 +71,7 @@ const EventList = ({ events, searchValue }) => {
           )}
         </div>
       </div>
+      {/* FIXME: 이벤트를 컴포넌트로 분리 -> 필요한 값만 Prop으로 전달 */}
       <ul className="list-none p-0">
         {searchedEvents.map(
           (

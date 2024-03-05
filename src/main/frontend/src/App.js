@@ -12,6 +12,9 @@ import Help from "./components/Help/Help";
 import Search from "./components/Searchicon/Search";
 import DateSelectorWithEventList from "./components/DateSelectorWithEventList/DateSelectorWithEventList";
 
+// FIXME: App.js는 화면을 그리는 요소를 배치하는 것 보단 Provider와 같은 세팅을 하고, 컴포넌트를 조립하는 곳
+// 리액트 라우터를 쓰게 되면 페이지 관리하는 코드를 작성하게 될 것
+
 function App() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [events, setEvents] = useState([]);
@@ -66,6 +69,7 @@ function App() {
     setSelectedDate(new Date());
   };
 
+  // FIXME: 최소한의 단위로 컴포넌트를 분리하고, 조립한다는 점을 잊지 말기
   return (
     <div>
       <Router>
@@ -84,6 +88,7 @@ function App() {
         <Help />
         <Search onSearch={handleSearch} />
       </div>
+
       <div className="flex justify-center mb-5 px-4">
         <Calendar
           locale="kr"
@@ -103,7 +108,7 @@ function App() {
               html.push(
                 <div
                   key={`cgv-${moment(date).format("YYYY-MM-DD")}`}
-                  className="dot dotCgv"
+                  className="w-six h-six ml-0.5 bg-cgv"
                 ></div>
               );
             }
@@ -134,6 +139,7 @@ function App() {
           }}
         />
       </div>
+      {/* FIXME: 불필요한 중간 단계가 있음 */}
       <DateSelectorWithEventList
         selectedDate={selectedDate}
         events={events}

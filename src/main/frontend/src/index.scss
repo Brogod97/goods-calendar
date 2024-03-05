@@ -1,3 +1,26 @@
+// CSS 관련 최상위 파일
+// 공통 스타일링 지정, 최우선 스타일링 지정
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// FIXME: Pretendard로 웹폰트 적용하기
+
+// FIXME: 폰트 사이즈 규격에 대한 커스텀 클래스 설정하는것 추천
+@layer components {
+  .font-12 {
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: -0.005em;
+  }
+
+  .font-13 {
+    font-size: 13px;
+    line-height: 20px;
+    letter-spacing: -0.01em;
+  }
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
