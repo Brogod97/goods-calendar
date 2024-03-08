@@ -1,4 +1,4 @@
-// FIXME: 불필요한 코드 삭제
+// FIXME: 불필요한 코드 삭제 // 완료
 // 커스텀으로 변경한 스타일은 하단에 오버라이딩(재선언)하여 작성
 
 /* 공통 스타일 */
@@ -170,18 +170,6 @@
   border-radius: 50%;
 }
 
-/* .react-calendar__tile:hover .addrHover,
-.react-calendar__tile:focus .addrHover {
-  position: absolute;
-  background: gray;
-  padding: 5%;
-  border-radius: 50%;
-  z-index: 1;
-  transform: translate(0%, -25%);
-  width: 20px;
-  height: 20px;
-} */
-
 .react-calendar__tile--now abbr {
   text-decoration: underline;
   background: black;
@@ -212,11 +200,6 @@
   padding: 5%;
   border-radius: 50%;
 }
-
-/* .react-calendar__month-view__days__day abbr {
-  position: relative;
-  z-index: 4;
-} */
 
 .react-calendar__tile--active:enabled:hover,
 .react-calendar__tile--active:enabled:focus {

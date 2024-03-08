@@ -6,11 +6,17 @@ module.exports = {
     extend: {
       colors: {
         cgv: "#e42313",
+        mega: "#362462",
+        lotte: "#ee870e",
       },
       spacing: {
-        six: "6px",
-        per8: "8%",
-        per200: "200%",
+        "2px": "2px",
+        "6px": "6px",
+        "12px": "12px",
+        "16px": "16px",
+        "8ps": "8%",
+        "106ps": "106%",
+        "200ps": "200%",
       },
     },
   },
