@@ -1,59 +1,59 @@
-@import "../../color.scss";
+// @import "../../color.scss";
 
-.helpicon {
-  width: 16px;
-  height: 16px;
-  margin-left: auto;
-  position: relative;
-}
+// .helpicon {
+//   width: 16px;
+//   height: 16px;
+//   margin-left: auto;
+//   position: relative;
+// }
 
-.modal {
-  position: absolute;
-  top: 18px;
-  left: -80px; /* 아이콘의 크기나 원하는 간격에 맞게 조절하세요 */
-  width: 86px;
-  height: 66px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-  align-items: center;
-}
+// .modal {
+//   position: absolute;
+//   top: 18px;
+//   left: -80px; /* 아이콘의 크기나 원하는 간격에 맞게 조절하세요 */
+//   width: 86px;
+//   height: 66px;
+//   background-color: white;
+//   border-radius: 8px;
+//   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+//   align-items: center;
+// }
 
-.modal p {
-  line-height: 22px;
-  text-align: left;
-  font-size: 10px;
-  padding: 0 0 0 12px;
-}
+// .modal p {
+//   line-height: 22px;
+//   text-align: left;
+//   font-size: 10px;
+//   padding: 0 0 0 12px;
+// }
 
-.mega {
-  width: 8px;
-  height: 8px;
-  background-color: $mega;
-  display: inline-block;
-}
-.lotte {
-  width: 8px;
-  height: 8px;
-  background-color: $lotte;
-  display: inline-block;
-}
+// .mega {
+//   width: 8px;
+//   height: 8px;
+//   background-color: $mega;
+//   display: inline-block;
+// }
+// .lotte {
+//   width: 8px;
+//   height: 8px;
+//   background-color: $lotte;
+//   display: inline-block;
+// }
 
-.cgv {
-  width: 8px;
-  height: 8px;
-  background-color: $cgv;
-  display: inline-block;
-}
+// .cgv {
+//   width: 8px;
+//   height: 8px;
+//   background-color: $cgv;
+//   display: inline-block;
+// }
 
-/* 모바일 화면에 대한 스타일 */
-@media (max-width: 768px) {
-}
+// /* 모바일 화면에 대한 스타일 */
+// @media (max-width: 768px) {
+// }
 
-/* 태블릿 화면에 대한 스타일 */
-@media (min-width: 769px) and (max-width: 1366px) {
-}
+// /* 태블릿 화면에 대한 스타일 */
+// @media (min-width: 769px) and (max-width: 1366px) {
+// }
 
-/* 웹 화면에 대한 스타일 */
-@media (min-width: 1367px) {
-}
+// /* 웹 화면에 대한 스타일 */
+// @media (min-width: 1367px) {
+// }

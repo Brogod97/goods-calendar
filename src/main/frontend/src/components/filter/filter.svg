@@ -1,5 +1,0 @@
-<!-- FIXME: width="current" height="current" fill="current"로 설정하면 컴포넌트에서 값 지정 시 적용 가능 -->
-<!-- svg 파일들 assets으로 옮기기 -->
-<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M2.66663 2.66675L5.99996 8.00008V12.0001L9.99996 14.0001V8.00008L13.3333 2.66675H2.66663Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>

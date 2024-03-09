@@ -1,6 +1,5 @@
-// FIXME: Tailwind로 적용하고 파일 삭제
+// FIXME: Tailwind로 적용하고 파일 삭제 // 완료
 /* EventList.css (또는 원하는 파일명으로) */
-@import "../../color.scss";
 
 // .header {
 //   display: flex;
@@ -16,32 +15,32 @@
 //   border-color: #8c8d96; /* 선의 색상 설정 */
 // }
 
-.filtericon {
-  width: 16px;
-  height: 16px;
-  margin-left: auto;
-  position: relative;
-}
+// .filtericon {
+//   width: 16px;
+//   height: 16px;
+//   margin-left: auto;
+//   position: relative;
+// }
 
-.filter-modal {
-  position: absolute;
-  top: 18px;
-  left: -80px; /* 아이콘의 크기나 원하는 간격에 맞게 조절하세요 */
-  width: 86px;
-  height: 74px;
-  background-color: white;
+// .filter-modal {
+//   position: absolute;
+//   top: 18px;
+//   left: -80px; /* 아이콘의 크기나 원하는 간격에 맞게 조절하세요 */
+//   width: 86px;
+//   height: 74px;
+//   background-color: white;
 
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-  align-items: center;
-}
-.filter-modal p {
-  height: 20px;
-  text-align: left;
-  font-size: 10px;
-  margin-top: 0px;
-  margin-left: 12px;
-}
+//   border-radius: 8px;
+//   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+//   align-items: center;
+// }
+// .filter-modal p {
+//   height: 20px;
+//   text-align: left;
+//   font-size: 10px;
+//   margin-top: 0px;
+//   margin-left: 12px;
+// }
 
 // ul {
 //   list-style-type: none;
@@ -63,17 +62,17 @@
 //   width: 100%; /* 링크 전체 너비에 걸쳐야 함 */
 // }
 
-.event_img {
-  margin: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+// .event_img {
+//   margin: 8px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+// }
 
-.event_img img {
-  width: 50px;
-  height: 50px;
-}
+// .event_img img {
+//   width: 50px;
+//   height: 50px;
+// }
 
 // .event_info {
 //   display: flex;
@@ -81,52 +80,52 @@
 //   padding-top: 8px;
 // }
 
-.event_card {
-  font-size: 14px;
-  padding-bottom: 2px;
-}
-
-.event_title {
-  font-size: 14px;
-}
+// .event_title {
+//   font-size: 14px;
+// }
 
 // .event_date {
 //   padding-bottom: 0px;
 // }
 
-.event_date p {
-  font-size: 10px;
-}
+// .event_date p {
+//   font-size: 10px;
+// }
 
-.event_card p {
-  font-size: 10px;
-  color: aliceblue;
-  border: 1px solid aliceblue;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 16px;
-  margin: 0;
-  border-radius: 4px;
-}
+// 얘내는 event.클래스명으로 카드의 형태가 바뀌는 로직이기때문에 테일윈드 적용 어려움
 
-/* 왜 텍스트 길이만큼 자동으로 결정 안되는거지?*/
-.AC {
-  width: 50px;
-  background-color: $lotte;
-}
+// .event_card {
+//   font-size: 14px;
+//   padding-bottom: 2px;
+// }
+// .event_card p {
+//   font-size: 10px;
+//   color: aliceblue;
+//   border: 1px solid aliceblue;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   height: 16px;
+//   margin: 0;
+//   border-radius: 4px;
+// }
 
-.TTT {
-  width: 54px;
-  background-color: $cgv;
-}
+// .AC {
+//   width: 50px;
+//   background-color: $lotte;
+// }
 
-.FM {
-  width: 54px;
-  background-color: $cgv;
-}
+// .TTT {
+//   width: 54px;
+//   background-color: $cgv;
+// }
 
-.OT {
-  width: 70px;
-  background-color: $mega;
-}
+// .FM {
+//   width: 54px;
+//   background-color: $cgv;
+// }
+
+// .OT {
+//   width: 70px;
+//   background-color: $mega;
+// }

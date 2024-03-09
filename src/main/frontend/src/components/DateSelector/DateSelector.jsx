@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Popup from "../Popup/Popup";
 import "./DateSelector.scss";
+import { ReactComponent as Down } from "../../assets/icon/Group 125.svg";
 
 // FIXME: DateSelector와 Popup은 별개의 컴포넌트가 아님
 const DateSelector = ({ onConfirm, selectedDate }) => {
@@ -47,8 +48,8 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
 
   return (
     <div>
-      <div className="relative" onClick={openPopup}>
-        {selectedYear}년 {selectedMonth}월 ⌵
+      <div className="relative flex items-center" onClick={openPopup}>
+        {selectedYear}년 {selectedMonth}월 <Down />
       </div>
       {isPopupOpen && (
         <Popup onClose={closePopup}>
