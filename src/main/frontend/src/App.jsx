@@ -118,31 +118,71 @@ function App() {
           showFixedNumberOfWeeks={true}
           tileContent={({ date, view }) => {
             let html = [];
-            if (markCgv.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
-              html.push(
-                <div
-                  key={`cgv-${moment(date).format("YYYY-MM-DD")}`}
-                  className="w-6px h-6px ml-0.5 bg-cgv"
-                ></div>
-              );
-            }
-            if (markMega.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
-              html.push(
-                <div
-                  key={`mega-${moment(date).format("YYYY-MM-DD")}`}
-                  className="w-6px h-6px ml-0.5 bg-mega"
-                ></div>
-              );
-            }
             if (
-              markLotte.find((x) => x === moment(date).format("YYYY-MM-DD"))
+              view === "month" &&
+              date.getMonth() !== selectedDate.getMonth()
             ) {
-              html.push(
-                <div
-                  key={`lotte-${moment(date).format("YYYY-MM-DD")}`}
-                  className="w-6px h-6px ml-0.5 bg-lotte"
-                ></div>
-              );
+              if (
+                markCgv.find((x) => x === moment(date).format("YYYY-MM-DD"))
+              ) {
+                html.push(
+                  <div
+                    key={`cgv-${moment(date).format("YYYY-MM-DD")}`}
+                    className="w-6px h-6px ml-0.5 bg-cgv opacity-50"
+                  ></div>
+                );
+              }
+              if (
+                markMega.find((x) => x === moment(date).format("YYYY-MM-DD"))
+              ) {
+                html.push(
+                  <div
+                    key={`mega-${moment(date).format("YYYY-MM-DD")}`}
+                    className="w-6px h-6px ml-0.5 bg-mega opacity-50"
+                  ></div>
+                );
+              }
+              if (
+                markLotte.find((x) => x === moment(date).format("YYYY-MM-DD"))
+              ) {
+                html.push(
+                  <div
+                    key={`lotte-${moment(date).format("YYYY-MM-DD")}`}
+                    className="w-6px h-6px ml-0.5 bg-lotte opacity-50"
+                  ></div>
+                );
+              }
+            } else {
+              if (
+                markCgv.find((x) => x === moment(date).format("YYYY-MM-DD"))
+              ) {
+                html.push(
+                  <div
+                    key={`cgv-${moment(date).format("YYYY-MM-DD")}`}
+                    className="w-6px h-6px ml-0.5 bg-cgv"
+                  ></div>
+                );
+              }
+              if (
+                markMega.find((x) => x === moment(date).format("YYYY-MM-DD"))
+              ) {
+                html.push(
+                  <div
+                    key={`mega-${moment(date).format("YYYY-MM-DD")}`}
+                    className="w-6px h-6px ml-0.5 bg-mega"
+                  ></div>
+                );
+              }
+              if (
+                markLotte.find((x) => x === moment(date).format("YYYY-MM-DD"))
+              ) {
+                html.push(
+                  <div
+                    key={`lotte-${moment(date).format("YYYY-MM-DD")}`}
+                    className="w-6px h-6px ml-0.5 bg-lotte"
+                  ></div>
+                );
+              }
             }
             return (
               <div className="relative flex justify-center items-center">

@@ -48,7 +48,10 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
 
   return (
     <div>
-      <div className="relative flex items-center" onClick={openPopup}>
+      <div
+        className="relative flex items-center cursor-pointer"
+        onClick={openPopup}
+      >
         {selectedYear}년 {selectedMonth}월 <Down />
       </div>
       {isPopupOpen && (
@@ -60,13 +63,15 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
               <p>월</p>
             </div>
             <div className="flex py-2 justify-around items-center">
-              <ul className="testStyle">
+              <ul className="testStyle scroll-smooth snap-y snap-mandatory">
+                <li className="listItemStyle snap-start"></li>
+                <li className="listItemStyle snap-start"></li>
                 {Array.from({ length: 11 }, (_, i) => i + 2019).map(
                   (year, index) => (
                     <li
                       key={year}
                       onClick={() => handleYearClick(year, index)}
-                      className={`listItemStyle ${
+                      className={`listItemStyle snap-start ${
                         selectedYearIndex === index ? "selected" : ""
                       }`}
                     >
@@ -74,15 +79,19 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
                     </li>
                   )
                 )}
+                <li className="listItemStyle "></li>
+                <li className="listItemStyle snap-end"></li>
               </ul>
 
-              <ul className="testStyle">
+              <ul className="testStyle scroll-smooth snap-y snap-mandatory">
+                <li className="listItemStyle snap-start"></li>
+                <li className="listItemStyle snap-start"></li>
                 {Array.from({ length: 12 }, (_, i) => i + 1).map(
                   (month, index) => (
                     <li
                       key={month}
                       onClick={() => handleMonthClick(month, index)}
-                      className={`listItemStyle ${
+                      className={`listItemStyle snap-start ${
                         selectedMonthIndex === index ? "selected" : ""
                       }`}
                     >
@@ -90,6 +99,8 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
                     </li>
                   )
                 )}
+                <li className="listItemStyle "></li>
+                <li className="listItemStyle snap-end"></li>
               </ul>
             </div>
             <div className="flex justify-center">
