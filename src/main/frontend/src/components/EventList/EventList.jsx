@@ -32,7 +32,7 @@ const EventList = ({ events, searchValue }) => {
     <div className="p-4">
       {/* <div className="border-dotted border border-gray-300"></div> */}
       <div className="flex justify-between items-center h-8 my-2">
-        <h4>이벤트 목록</h4>
+        <div className="text-base font-medium">이벤트 목록</div>
         {/* FIXME: Filter를 컴포넌트로 분리 */}
         <div className="w-4 h-4 ml-auto relative">
           <div onClick={toggleFilterModal}>{/* <Filtericon /> */}</div>
@@ -72,10 +72,10 @@ const EventList = ({ events, searchValue }) => {
       </div>
       {/* FIXME: 이벤트를 컴포넌트로 분리 -> 필요한 값만 Prop으로 전달 */}
       <ul className="list-none p-0">
-        {searchedEvents.map(
-          (
-            event // 검색된 이벤트만 매핑
-          ) => (
+        {searchedEvents.length === 0 ? (
+          <div>이벤트가 없습니다</div>
+        ) : (
+          searchedEvents.map((event) => (
             <li
               className="flex border border-gray-300 rounded mb-2 h-20"
               key={event.id}
@@ -88,16 +88,12 @@ const EventList = ({ events, searchValue }) => {
               >
                 <div
                   id="event_img"
-                  className="m-2 flex items-center justify-center"
+                  className="m-2 size-16 flex items-center justify-center"
                 >
-                  <img
-                    className="w-12 h-12"
-                    src={event.thumbnail}
-                    alt="썸네일"
-                  />
+                  <img className="size-16" src={event.thumbnail} alt="썸네일" />
                 </div>
-                <div className="flex flex-col pt-3">
-                  <div className="text-xs text-white  flex items-center justify-start h-4 m-0">
+                <div className="flex flex-col pt-10px">
+                  <div className="text-xs text-white flex items-center justify-start h-4 m-0">
                     {(() => {
                       if (event.goodsType === "AC") {
                         return (
@@ -127,18 +123,18 @@ const EventList = ({ events, searchValue }) => {
                       return null;
                     })()}
                   </div>
-                  <div className="font-14">
+                  <div className="font-14 py-1">
                     <strong>{event.title}</strong>
                   </div>
                   <div className="event_date">
-                    <p className="font-10">
+                    <p className="font-12 ">
                       {event.startDate} ~ {event.endDate}
                     </p>
                   </div>
                 </div>
               </a>
             </li>
-          )
+          ))
         )}
       </ul>
     </div>

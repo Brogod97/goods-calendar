@@ -13,7 +13,7 @@ const Header = () => {
   };
 
   return (
-    <header className="border-b border-gray-500 flex min-h-20 items-center justify-center mx-4 py-3">
+    <header className="border-b border-gray-400 flex min-h-20 items-center justify-center mx-4 py-10px">
       <div>
         <div className="cursor-pointer" onClick={handleLogoClick}>
           <Logo />

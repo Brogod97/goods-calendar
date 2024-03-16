@@ -1,5 +1,6 @@
 import React from "react";
-import { ReactComponent as Filtericon } from "../../assets/icon/filter.svg";
+// import { ReactComponent as Filtericon } from "../../assets/icon/filter.svg";
+import { TbFilter } from "react-icons/tb";
 
 const Filter = ({ selectedFilters, handleFilterChange }) => {
   const toggleFilterModal = () => {
@@ -10,7 +11,7 @@ const Filter = ({ selectedFilters, handleFilterChange }) => {
   return (
     <div className="w-4 h-4 ml-auto relative">
       <div onClick={toggleFilterModal}>
-        <Filtericon />
+        <TbFilter />
       </div>
       <div
         id="filter-modal"

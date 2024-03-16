@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Searchpage from "../Search/Searchpage";
-import { ReactComponent as Searchicon } from "../../assets/icon/search.svg";
+// import { ReactComponent as Searchicon } from "../../assets/icon/search.svg";
+import { TbSearch } from "react-icons/tb";
 
 const Search = ({ onSearch }) => {
   // App 컴포넌트로부터 onSearch 함수를 props으로 전달받음
@@ -21,7 +22,8 @@ const Search = ({ onSearch }) => {
   return (
     <div className="size-4 mx-6px">
       <div className="cursor-pointer" onClick={openModal}>
-        <Searchicon width={16} height={16} />
+        {/* <Searchicon width={16} height={16} /> */}
+        <TbSearch />
       </div>
 
       {isModalOpen && (

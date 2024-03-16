@@ -11,7 +11,7 @@
 .react-calendar {
   background: #f5f5f5;
   border: 1px solid #a0a096;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Pretendard-Regular;
   line-height: 1.125em;
 }
 
@@ -27,12 +27,12 @@
 /* 모바일 화면에 대한 스타일 */
 @media (max-width: 768px) {
   .react-calendar {
-    height: 280px;
+    height: 300px;
     max-width: 100%; /* 화면 너비에 맞추기 */
   }
 
   .react-calendar__tile {
-    font-size: 10px; /* 날짜 폰트 크기 조절 */
+    font-size: 13px; /* 날짜 폰트 크기 조절 */
     line-height: 0.9; /* 날짜 간격 조절 */
     padding: 16px 6.6667px;
   }
@@ -112,7 +112,7 @@
   text-transform: uppercase;
   font: inherit;
   font-size: 0.75em;
-  font-weight: bold;
+  font-weight: normal;
 }
 
 .react-calendar__month-view__weekdays__weekday {
@@ -121,7 +121,7 @@
 
 .react-calendar__month-view__weekdays abbr {
   text-decoration: none;
-  font-weight: 800;
+  font-weight: 550;
 }
 
 .react-calendar__month-view__weekNumbers .react-calendar__tile {
@@ -158,7 +158,7 @@
 .react-calendar__tile:enabled:hover abbr {
   color: white;
   background: gray;
-  padding: 5%;
+  padding: 12%;
   border-radius: 50%;
   width: 20px;
   height: 20px;
@@ -166,7 +166,7 @@
 .react-calendar__tile:enabled:focus abbr {
   background: black;
   color: white;
-  padding: 5%;
+  padding: 12%;
   border-radius: 50%;
 }
 
@@ -174,7 +174,7 @@
   text-decoration: underline;
   background: black;
   color: white;
-  padding: 5%;
+  padding: 12%;
   border-radius: 50%;
 }
 
@@ -197,7 +197,7 @@
 .react-calendar__tile--active abbr {
   background: black;
   color: white;
-  padding: 5%;
+  padding: 12%;
   border-radius: 50%;
 }
 
