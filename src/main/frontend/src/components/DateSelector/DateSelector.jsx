@@ -30,12 +30,28 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
   const handleYearClick = (year, index) => {
     setSelectedYear(year);
     setSelectedYearIndex(index);
+    const listItemHeight = 40; // 각 리스트 아이템의 높이
+    const scrollContainer = document.querySelector(".testStyle");
+    const scrollOffset =
+      listItemHeight * (index + 2) - scrollContainer.offsetHeight / 2;
+    scrollContainer.scrollTo({
+      top: scrollOffset,
+      behavior: "smooth",
+    });
     openPopup();
   };
 
   const handleMonthClick = (month, index) => {
     setSelectedMonth(month);
     setSelectedMonthIndex(index);
+    const listItemHeight = 40; // 각 리스트 아이템의 높이
+    const scrollContainer = document.querySelector(".testStyle2");
+    const scrollOffset =
+      listItemHeight * (index + 2) - scrollContainer.offsetHeight / 2;
+    scrollContainer.scrollTo({
+      top: scrollOffset,
+      behavior: "smooth",
+    });
     openPopup();
   };
 
@@ -64,14 +80,14 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
             </div>
             <div className="flex py-2 justify-around items-center">
               <ul className="testStyle scroll-smooth snap-y snap-mandatory">
-                <li className="listItemStyle snap-start"></li>
-                <li className="listItemStyle snap-start"></li>
+                <li className="dummy snap-start"></li>
+                <li className="dummy snap-start"></li>
                 {Array.from({ length: 11 }, (_, i) => i + 2019).map(
                   (year, index) => (
                     <li
                       key={year}
                       onClick={() => handleYearClick(year, index)}
-                      className={`listItemStyle snap-start ${
+                      className={`listItemStyle cursor-pointer snap-start ${
                         selectedYearIndex === index ? "selected" : ""
                       }`}
                     >
@@ -79,19 +95,19 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
                     </li>
                   )
                 )}
-                <li className="listItemStyle "></li>
-                <li className="listItemStyle snap-end"></li>
+                <li className="dummy "></li>
+                <li className="dummy snap-end"></li>
               </ul>
 
-              <ul className="testStyle scroll-smooth snap-y snap-mandatory">
-                <li className="listItemStyle snap-start"></li>
-                <li className="listItemStyle snap-start"></li>
+              <ul className="testStyle2 scroll-smooth snap-y snap-mandatory">
+                <li className="dummy snap-start"></li>
+                <li className="dummy snap-start"></li>
                 {Array.from({ length: 12 }, (_, i) => i + 1).map(
                   (month, index) => (
                     <li
                       key={month}
                       onClick={() => handleMonthClick(month, index)}
-                      className={`listItemStyle snap-start ${
+                      className={`listItemStyle cursor-pointer snap-start ${
                         selectedMonthIndex === index ? "selected" : ""
                       }`}
                     >
@@ -99,8 +115,8 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
                     </li>
                   )
                 )}
-                <li className="listItemStyle "></li>
-                <li className="listItemStyle snap-end"></li>
+                <li className="dummy "></li>
+                <li className="dummy snap-end"></li>
               </ul>
             </div>
             <div className="flex justify-center">

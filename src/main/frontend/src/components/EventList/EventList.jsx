@@ -123,8 +123,8 @@ const EventList = ({ events, searchValue }) => {
                       return null;
                     })()}
                   </div>
-                  <div className="font-14 py-1">
-                    <strong>{event.title}</strong>
+                  <div className="font-14 py-1 max-w-[300px] overflow-hidden text-ellipsis whitespace-nowrap">
+                    <strong className="">{event.title}</strong>
                   </div>
                   <div className="event_date">
                     <p className="font-12 ">

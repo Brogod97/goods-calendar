@@ -22,7 +22,7 @@ const Popup = ({ onClose, children }) => {
 
   return (
     <div
-      className="z-40 rounded-lg shadow-md flex items-center size-72 absolute bg-white "
+      className="z-40 rounded-lg shadow-md flex items-center size-72 absolute translate-y-2 bg-white "
       ref={popupRef}
     >
       <div className="px-4 ">
