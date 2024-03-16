@@ -6,6 +6,14 @@
   scrollbar-width: none; /* 파이어폭스 */
 }
 
+.testStyle2 {
+  overflow-y: scroll;
+  height: 190px;
+  width: 100px;
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
+}
+
 .listItemStyle {
   display: flex;
   border: 0px;
@@ -21,6 +29,15 @@
   background-color: lightgrey;
 }
 
+.dummy {
+  display: flex;
+  border: 0px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  height: 30px;
+  justify-content: center;
+}
+
 .selector {
   display: flex;
   justify-content: space-around;
@@ -28,5 +45,9 @@
 }
 
 .testStyle::-webkit-scrollbar {
+  display: none; /* 크롬, 사파리, 오페라, 엣지 */
+}
+
+.testStyle2::-webkit-scrollbar {
   display: none; /* 크롬, 사파리, 오페라, 엣지 */
 }
