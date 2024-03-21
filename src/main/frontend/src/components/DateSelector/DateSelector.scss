@@ -51,3 +51,21 @@
 .testStyle2::-webkit-scrollbar {
   display: none; /* 크롬, 사파리, 오페라, 엣지 */
 }
+
+.popup {
+  position: relative;
+  z-index: -1;
+  animation-name: fadeOut;
+  animation-duration: 0.5s;
+}
+
+.popup.active {
+  z-index: 40;
+  animation-name: fadeIn;
+  animation-duration: 0.5s;
+}
+
+.popup.inactive {
+  animation-name: fadeOut;
+  animation-duration: 0.5s;
+}

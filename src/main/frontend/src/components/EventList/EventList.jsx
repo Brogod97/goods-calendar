@@ -2,21 +2,7 @@ import React, { useState } from "react";
 import "./EventList.scss";
 
 const EventList = ({ events, searchValue }) => {
-  const [selectedFilters, setSelectedFilters] = useState([]);
-  const [isFilterModalOpen, setFilterModalOpen] = useState(false);
-
-  const handleFilterChange = (type) => {
-    // 선택된 필터들을 관리하는 배열에 추가 또는 제거
-    if (selectedFilters.includes(type)) {
-      setSelectedFilters(selectedFilters.filter((filter) => filter !== type));
-    } else {
-      setSelectedFilters([...selectedFilters, type]);
-    }
-  };
-
-  const toggleFilterModal = () => {
-    setFilterModalOpen(!isFilterModalOpen);
-  };
+  const [selectedFilters] = useState([]);
 
   const filteredEvents = selectedFilters.length
     ? events.filter((event) => selectedFilters.includes(event.type))
@@ -33,51 +19,17 @@ const EventList = ({ events, searchValue }) => {
       {/* <div className="border-dotted border border-gray-300"></div> */}
       <div className="flex justify-between items-center h-8 my-2">
         <div className="text-base font-medium">이벤트 목록</div>
-        {/* FIXME: Filter를 컴포넌트로 분리 */}
-        <div className="w-4 h-4 ml-auto relative">
-          <div onClick={toggleFilterModal}>{/* <Filtericon /> */}</div>
-          {isFilterModalOpen && (
-            <div className="absolute top-4 left-[-80px] w-24 h-20 bg-white rounded-lg shadow-md items-center">
-              {/* 각 필터를 체크박스로 표시 */}
-              <p className="h-5 text-left text-xs mt-0 ml-3">
-                <input
-                  type="checkbox"
-                  value="AC"
-                  checked={selectedFilters.includes("AC")}
-                  onChange={() => handleFilterChange("AC")}
-                />
-                아트
-              </p>
-              <p className="h-5 text-left text-xs mt-0 ml-3">
-                <input
-                  type="checkbox"
-                  value="OT"
-                  checked={selectedFilters.includes("OT")}
-                  onChange={() => handleFilterChange("OT")}
-                />
-                오리지널
-              </p>
-              <p className="h-5 text-left text-xs mt-0 ml-3">
-                <input
-                  type="checkbox"
-                  value="TTT"
-                  checked={selectedFilters.includes("TTT")}
-                  onChange={() => handleFilterChange("TTT")}
-                />
-                TTT
-              </p>
-            </div>
-          )}
-        </div>
       </div>
       {/* FIXME: 이벤트를 컴포넌트로 분리 -> 필요한 값만 Prop으로 전달 */}
       <ul className="list-none p-0">
         {searchedEvents.length === 0 ? (
-          <div>이벤트가 없습니다</div>
+          <div className="flex justify-center items-center text-sm text-gray-400">
+            현재 이벤트가 없습니다.
+          </div>
         ) : (
           searchedEvents.map((event) => (
             <li
-              className="flex border border-gray-300 rounded mb-2 h-20"
+              className="flex border border-gray-300 rounded mb-2 h-20 w-full"
               key={event.id}
             >
               <a
@@ -90,9 +42,13 @@ const EventList = ({ events, searchValue }) => {
                   id="event_img"
                   className="m-2 size-16 flex items-center justify-center"
                 >
-                  <img className="size-16" src={event.thumbnail} alt="썸네일" />
+                  <img
+                    className="size-16 max-w-16"
+                    src={event.thumbnail}
+                    alt="썸네일"
+                  />
                 </div>
-                <div className="flex flex-col pt-10px">
+                <div className="flex flex-col pt-10px w-full">
                   <div className="text-xs text-white flex items-center justify-start h-4 m-0">
                     {(() => {
                       if (event.goodsType === "AC") {
@@ -123,8 +79,10 @@ const EventList = ({ events, searchValue }) => {
                       return null;
                     })()}
                   </div>
-                  <div className="font-14 py-1 max-w-[300px] overflow-hidden text-ellipsis whitespace-nowrap">
-                    <strong className="">{event.title}</strong>
+                  <div className="font-14 py-1 ">
+                    <p className="font-semibold max-w-[95%] truncate">
+                      {event.title}
+                    </p>
                   </div>
                   <div className="event_date">
                     <p className="font-12 ">

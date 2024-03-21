@@ -22,10 +22,10 @@ const Popup = ({ onClose, children }) => {
 
   return (
     <div
-      className="z-40 rounded-lg shadow-md flex items-center size-72 absolute translate-y-2 bg-white "
+      className="z-40 rounded-lg shadow-md flex items-center w-72 h-80 absolute translate-y-2 bg-white "
       ref={popupRef}
     >
-      <div className="px-4 ">
+      <div className="relative z-50 px-4 ">
         {/* 년도와 월 선택 드롭다운 */}
         {children}
       </div>

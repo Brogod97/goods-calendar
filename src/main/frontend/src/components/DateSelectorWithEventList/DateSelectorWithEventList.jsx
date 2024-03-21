@@ -11,9 +11,13 @@ const DateSelectorWithEventList = ({ selectedDate, events, searchValue }) => {
   const fetchEventsByDate = useCallback(
     async (date) => {
       const formattedDate = moment(date).format("YYYY-MM-DD");
+
       const filteredEvents = events.filter((event) =>
-        moment(event.startDate).isSame(formattedDate, "day")
+        moment(event.startDate, "YYYY.MM.DD")
+          .startOf("day")
+          .isSame(formattedDate, "day")
       );
+
       setFilteredEvents(filteredEvents);
     },
     [events]

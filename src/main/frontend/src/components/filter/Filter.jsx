@@ -9,9 +9,9 @@ const Filter = ({ selectedFilters, handleFilterChange }) => {
   };
 
   return (
-    <div className="w-4 h-4 ml-auto relative">
-      <div onClick={toggleFilterModal}>
-        <TbFilter />
+    <div className="w-4 h-4 ml-auto mr-2 relative">
+      <div className="cursor-pointer" onClick={toggleFilterModal}>
+        <TbFilter className="hover:stroke-grayc" color="#1d1d1f" />
       </div>
       <div
         id="filter-modal"
