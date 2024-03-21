@@ -10,26 +10,71 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
   const [selectedMonth, setSelectedMonth] = useState(
     selectedDate.getMonth() + 1
   );
-  const [selectedYearIndex, setSelectedYearIndex] = useState(null);
-  const [selectedMonthIndex, setSelectedMonthIndex] = useState(null);
+  const defaultYear = selectedDate.getFullYear();
+  const defaultMonth = selectedDate.getMonth() + 1;
   const defaultdate = 1;
+
+  // Year와 Month 배열 상태로 선언
+  const [years, setYears] = useState([]);
+  const [months, setMonths] = useState([]);
+
+  // Year와 Month 배열 초기화
+  useEffect(() => {
+    const yearArray = Array.from({ length: 11 }, (_, i) => 2019 + i);
+    const monthArray = Array.from({ length: 12 }, (_, i) => i + 1);
+    setYears(yearArray);
+    setMonths(monthArray);
+  }, []);
 
   useEffect(() => {
     setSelectedYear(selectedDate.getFullYear());
     setSelectedMonth(selectedDate.getMonth() + 1);
   }, [selectedDate]);
 
+  const openPopup2 = (selectedYear, selectedMonth, yearArray, monthArray) => {
+    // 선택된 연도와 월에 해당하는 인덱스를 찾습니다.
+    const yearIndex = yearArray.findIndex((year) => year === selectedYear);
+    const monthIndex = monthArray.findIndex((month) => month === selectedMonth);
+
+    // 선택된 연도와 월에 해당하는 위치로 스크롤을 이동합니다.
+    const listItemHeight = 40; // 각 리스트 아이템의 높이
+    const yearScrollContainer = document.querySelector(".testStyle");
+    const yearScrollOffset =
+      listItemHeight * (yearIndex + 2) - yearScrollContainer.offsetHeight / 2;
+    yearScrollContainer.scrollTo({
+      top: yearScrollOffset,
+      behavior: "instant",
+    });
+
+    const monthScrollContainer = document.querySelector(".testStyle2");
+    const monthScrollOffset =
+      listItemHeight * (monthIndex + 2) - monthScrollContainer.offsetHeight / 2;
+    monthScrollContainer.scrollTo({
+      top: monthScrollOffset,
+      behavior: "instant",
+    });
+    openPopup();
+  };
+
   const openPopup = () => {
     setPopupOpen(true);
   };
 
   const closePopup = () => {
-    setPopupOpen(false);
+    if (isPopupOpen) {
+      const popup = document.querySelector(".popup");
+      popup.classList.add("inactive");
+      setSelectedYear(defaultYear);
+      setSelectedMonth(defaultMonth);
+      // 팝업이 완전히 사라진 후 상태 변경
+      setTimeout(() => {
+        setPopupOpen(false);
+      }, 300);
+    }
   };
 
   const handleYearClick = (year, index) => {
     setSelectedYear(year);
-    setSelectedYearIndex(index);
     const listItemHeight = 40; // 각 리스트 아이템의 높이
     const scrollContainer = document.querySelector(".testStyle");
     const scrollOffset =
@@ -43,7 +88,6 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
 
   const handleMonthClick = (month, index) => {
     setSelectedMonth(month);
-    setSelectedMonthIndex(index);
     const listItemHeight = 40; // 각 리스트 아이템의 높이
     const scrollContainer = document.querySelector(".testStyle2");
     const scrollOffset =
@@ -57,8 +101,6 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
 
   const handleConfirm = () => {
     onConfirm(selectedYear, selectedMonth, defaultdate);
-    setSelectedYearIndex(null); // 선택된 인덱스 초기화
-    setSelectedMonthIndex(null); // 선택된 인덱스 초기화
     closePopup();
   };
 
@@ -66,11 +108,11 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
     <div>
       <div
         className="relative flex items-center cursor-pointer"
-        onClick={openPopup}
+        onClick={() => openPopup2(selectedYear, selectedMonth, years, months)}
       >
-        {selectedYear}년 {selectedMonth}월 <Down />
+        {defaultYear}년 {defaultMonth}월 <Down />
       </div>
-      {isPopupOpen && (
+      <div className={`popup ${isPopupOpen ? "active" : ""}`}>
         <Popup onClose={closePopup}>
           {/* FIXME: Popup 컴포넌트 내부에 children으로 전달하고 있는데, 꼭 필요한 경우가 아니라면, Popup 컴포넌트 내부에 작성하기 */}
           <div className="">
@@ -88,7 +130,7 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
                       key={year}
                       onClick={() => handleYearClick(year, index)}
                       className={`listItemStyle cursor-pointer snap-start ${
-                        selectedYearIndex === index ? "selected" : ""
+                        selectedYear === year ? "selected" : ""
                       }`}
                     >
                       {year}
@@ -108,7 +150,7 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
                       key={month}
                       onClick={() => handleMonthClick(month, index)}
                       className={`listItemStyle cursor-pointer snap-start ${
-                        selectedMonthIndex === index ? "selected" : ""
+                        selectedMonth === month ? "selected" : ""
                       }`}
                     >
                       {month}
@@ -119,7 +161,7 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
                 <li className="dummy snap-end"></li>
               </ul>
             </div>
-            <div className="flex justify-center">
+            <div className="flex justify-center ">
               <button
                 className="px-28 py-1 rounded-lg border text-white bg-black border-white"
                 onClick={handleConfirm}
@@ -129,7 +171,7 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
             </div>
           </div>
         </Popup>
-      )}
+      </div>
     </div>
   );
 };

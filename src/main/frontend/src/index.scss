@@ -8,7 +8,26 @@
 
 @font-face {
   font-family: "Pretendard-Regular";
-  src: url("./fonts/PretendardVariable.ttf") format("truetype");
+  src:
+    url("./fonts/Pretendard-Regular.woff2") format("woff2"),
+    url("./fonts/Pretendard-Regular.woff") format("woff"),
+    url("./fonts/PretendardVariable.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Pretendard-Light";
+  src:
+    url("./fonts/Pretendard-Light.woff2") format("woff2"),
+    url("./fonts/Pretendard-Light.woff") format("woff"),
+    url("./fonts/PretendardVariable.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Pretendard-SemiBold";
+  src:
+    url("./fonts/Pretendard-SemiBold.woff2") format("woff2"),
+    url("./fonts/Pretendard-SemiBold.woff") format("woff"),
+    url("./fonts/PretendardVariable.ttf") format("truetype");
 }
 
 // FIXME: 폰트 사이즈 규격에 대한 커스텀 클래스 설정하는것 추천
@@ -41,6 +60,8 @@ body {
   margin: 0;
   font-family:
     "Pretendard-Regular",
+    "Pretendard-Light",
+    "Pretendard-SemiBold",
     -apple-system,
     BlinkMacSystemFont,
     "Segoe UI",
@@ -54,9 +75,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #1d1d1f;
 }
 
 code {
-  font-family: "Pretendard-Regular", source-code-pro, Menlo, Monaco, Consolas,
-    "Courier New", monospace;
+  font-family: "Pretendard-Regular", "Pretendard-Light", "Pretendard-SemiBold",
+    source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }

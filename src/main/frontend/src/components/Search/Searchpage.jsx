@@ -1,10 +1,11 @@
-// FIXME: pages로 분리하기
-
 import React, { useState, useEffect } from "react";
+import { IoMdClose } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 const Searchpage = ({ onClose, onSearch }) => {
   const [searchValue, setSearchValue] = useState("");
   const [recentSearches, setRecentSearches] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedSearches =
@@ -31,7 +32,9 @@ const Searchpage = ({ onClose, onSearch }) => {
       setSearchValue("");
       saveToLocalStorage(updatedSearches);
 
-      onSearch(searchValue.trim());
+      navigate(
+        `/search-results?query=${encodeURIComponent(searchValue.trim())}`
+      );
     }
     onClose();
   };
@@ -55,7 +58,6 @@ const Searchpage = ({ onClose, onSearch }) => {
   };
 
   const handleRecentSearchClick = (search) => {
-    // 클릭한 최근 검색어로 검색을 실행합니다.
     onSearch(search);
     onClose();
   };
@@ -63,9 +65,9 @@ const Searchpage = ({ onClose, onSearch }) => {
   return (
     <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white w-full h-full z-40 p-4">
       <div className="w-full flex z-50">
-        <div className="search-inputbox">
+        <div className="search-inputbox basis-5/6">
           <input
-            className="visible border-0 bg-gray-200 w-106ps cursor-text text-inherit pl-12px pr-16 py-2 rounded-md"
+            className="visible border-0 bg-gray-100 w-full cursor-text text-inherit pl-12px py-2 rounded-md"
             type="text"
             placeholder="이벤트 검색"
             value={searchValue}
@@ -75,48 +77,50 @@ const Searchpage = ({ onClose, onSearch }) => {
         </div>
         {searchValue ? (
           <button
-            className="text-lg font-bold absolute top-6 right-9 border-none bg-transparent"
+            className="text-lg font-bold top-6 right-5 border-none bg-transparent flex-grow basis-1/6 pl-4"
             onClick={handleSearchClick}
           >
             검색
           </button>
         ) : (
           <button
-            className="text-lg font-bold absolute top-6 right-9 border-none bg-transparent"
+            className="text-lg font-bold top-6 right-5 border-none bg-transparent flex-grow basis-1/6 pl-4"
             onClick={handleCancelClick}
           >
             취소
           </button>
         )}
       </div>
-      <div className="relative">
-        <div className="mt-10 mb-2 flex ">
-          <p className="font-16px mr-auto">
-            <span>최근 검색어</span>
+      <div className="">
+        <div className="mt-7 mb-1 flex h-9">
+          <p className="text-sm text-gray-400 mr-auto">
+            <span className="pl-2 ">최근 검색어</span>
           </p>
           <div className="ml-auto">
             <button
-              className="text-16px border-none bg-transparent"
+              className="text-sm text-gray-400 border-none bg-transparent"
               onClick={handleDeleteAllSearches}
             >
               전체 삭제
             </button>
           </div>
         </div>
-        <ul className="absolute top-8 w-full">
+        <ul className="flex flex-col">
           {recentSearches.map((search, index) => (
             <li
-              className="flex py-2"
+              className="flex pl-2 h-10 "
               key={index}
               onClick={() => handleRecentSearchClick(search)}
             >
               {search}
-              <button
-                className="border-none bg-transparent ml-auto "
-                onClick={() => handleDeleteSearch(index)}
-              >
-                X
-              </button>
+              <div className="ml-auto">
+                <button
+                  className="border-none bg-transparent"
+                  onClick={() => handleDeleteSearch(index)}
+                >
+                  <IoMdClose className="text-gray-500" />
+                </button>
+              </div>
             </li>
           ))}
         </ul>

@@ -27,21 +27,27 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/events");
+        const response = await axios.get("http://192.168.45.95:8080/events");
         setEvents(response.data);
 
         // markCgv, markMega, markLotte에 날짜 추가하는 로직
         const markCgvDates = response.data
           .filter((event) => event.theater === "CGV")
-          .map((event) => moment(event.startDate).format("YYYY-MM-DD"));
+          .map((event) =>
+            moment(event.startDate, "YYYY.MM.DD").format("YYYY-MM-DD")
+          );
 
         const markMegaDates = response.data
           .filter((event) => event.theater === "MEGABOX")
-          .map((event) => moment(event.startDate).format("YYYY-MM-DD"));
+          .map((event) =>
+            moment(event.startDate, "YYYY.MM.DD").format("YYYY-MM-DD")
+          );
 
         const markLotteDates = response.data
           .filter((event) => event.theater === "LOTTE")
-          .map((event) => moment(event.startDate).format("YYYY-MM-DD"));
+          .map((event) =>
+            moment(event.startDate, "YYYY.MM.DD").format("YYYY-MM-DD")
+          );
 
         setMarkCgv(markCgvDates);
         setMarkMega(markMegaDates);
@@ -85,123 +91,126 @@ function App() {
     <div>
       <Router>
         <Header />
-      </Router>
-      <div className="flex mt-7 mb-3 mx-4 items-center">
-        <DateSelector onConfirm={handleConfirm} selectedDate={selectedDate} />
-        <div className="pl-2">
-          <button
-            className="px-2 rounded-lg border border-gray-200"
-            onClick={todayCursor}
-          >
-            오늘
-          </button>
-        </div>
-        <Filter
-          selectedFilters={selectedFilters}
-          handleFilterChange={handleFilterChange}
-        />
-        <Search onSearch={handleSearch} />
-      </div>
 
-      <div className="flex justify-center mx-4">
-        <Calendar
-          locale="kr"
-          calendarType="US"
-          onChange={handleCalendarChange}
-          value={selectedDate}
-          formatDay={(locale, date) => moment(date).format("DD")}
-          activeStartDate={selectedDate}
-          minDetail="month"
-          maxDetail="month"
-          navigationLabel={null}
-          showNavigation={null}
-          showFixedNumberOfWeeks={true}
-          tileContent={({ date, view }) => {
-            let html = [];
-            if (
-              view === "month" &&
-              date.getMonth() !== selectedDate.getMonth()
-            ) {
+        <div className="flex mt-7 mb-3 mx-4 items-center">
+          <DateSelector onConfirm={handleConfirm} selectedDate={selectedDate} />
+          <div className="pl-2">
+            <button
+              className="px-2 rounded-lg border border-gray-200"
+              onClick={todayCursor}
+            >
+              오늘
+            </button>
+          </div>
+          <Filter
+            selectedFilters={selectedFilters}
+            handleFilterChange={handleFilterChange}
+          />
+
+          <Search onSearch={handleSearch} />
+        </div>
+
+        <div className="flex justify-center mx-4">
+          <Calendar
+            locale="kr"
+            calendarType="gregory"
+            onChange={handleCalendarChange}
+            value={selectedDate}
+            formatDay={(locale, date) => moment(date).format("DD")}
+            activeStartDate={selectedDate}
+            minDetail="month"
+            maxDetail="month"
+            navigationLabel={null}
+            showNavigation={null}
+            showFixedNumberOfWeeks={true}
+            tileContent={({ date, view }) => {
+              let html = [];
               if (
-                markCgv.find((x) => x === moment(date).format("YYYY-MM-DD"))
+                view === "month" &&
+                date.getMonth() !== selectedDate.getMonth()
               ) {
-                html.push(
-                  <div
-                    key={`cgv-${moment(date).format("YYYY-MM-DD")}`}
-                    className="w-6px h-6px ml-0.5 bg-cgv opacity-50"
-                  ></div>
-                );
+                if (
+                  markCgv.find((x) => x === moment(date).format("YYYY-MM-DD"))
+                ) {
+                  html.push(
+                    <div
+                      key={`cgv-${moment(date).format("YYYY-MM-DD")}`}
+                      className="w-6px h-6px ml-0.5 bg-cgv opacity-50"
+                    ></div>
+                  );
+                }
+                if (
+                  markMega.find((x) => x === moment(date).format("YYYY-MM-DD"))
+                ) {
+                  html.push(
+                    <div
+                      key={`mega-${moment(date).format("YYYY-MM-DD")}`}
+                      className="w-6px h-6px ml-0.5 bg-mega opacity-50"
+                    ></div>
+                  );
+                }
+                if (
+                  markLotte.find((x) => x === moment(date).format("YYYY-MM-DD"))
+                ) {
+                  html.push(
+                    <div
+                      key={`lotte-${moment(date).format("YYYY-MM-DD")}`}
+                      className="w-6px h-6px ml-0.5 bg-lotte opacity-50"
+                    ></div>
+                  );
+                }
+              } else {
+                if (
+                  markCgv.find((x) => x === moment(date).format("YYYY-MM-DD"))
+                ) {
+                  html.push(
+                    <div
+                      key={`cgv-${moment(date).format("YYYY-MM-DD")}`}
+                      className="w-6px h-6px ml-0.5 bg-cgv"
+                    ></div>
+                  );
+                }
+                if (
+                  markMega.find((x) => x === moment(date).format("YYYY-MM-DD"))
+                ) {
+                  html.push(
+                    <div
+                      key={`mega-${moment(date).format("YYYY-MM-DD")}`}
+                      className="w-6px h-6px ml-0.5 bg-mega"
+                    ></div>
+                  );
+                }
+                if (
+                  markLotte.find((x) => x === moment(date).format("YYYY-MM-DD"))
+                ) {
+                  html.push(
+                    <div
+                      key={`lotte-${moment(date).format("YYYY-MM-DD")}`}
+                      className="w-6px h-6px ml-0.5 bg-lotte"
+                    ></div>
+                  );
+                }
               }
-              if (
-                markMega.find((x) => x === moment(date).format("YYYY-MM-DD"))
-              ) {
-                html.push(
-                  <div
-                    key={`mega-${moment(date).format("YYYY-MM-DD")}`}
-                    className="w-6px h-6px ml-0.5 bg-mega opacity-50"
-                  ></div>
-                );
-              }
-              if (
-                markLotte.find((x) => x === moment(date).format("YYYY-MM-DD"))
-              ) {
-                html.push(
-                  <div
-                    key={`lotte-${moment(date).format("YYYY-MM-DD")}`}
-                    className="w-6px h-6px ml-0.5 bg-lotte opacity-50"
-                  ></div>
-                );
-              }
-            } else {
-              if (
-                markCgv.find((x) => x === moment(date).format("YYYY-MM-DD"))
-              ) {
-                html.push(
-                  <div
-                    key={`cgv-${moment(date).format("YYYY-MM-DD")}`}
-                    className="w-6px h-6px ml-0.5 bg-cgv"
-                  ></div>
-                );
-              }
-              if (
-                markMega.find((x) => x === moment(date).format("YYYY-MM-DD"))
-              ) {
-                html.push(
-                  <div
-                    key={`mega-${moment(date).format("YYYY-MM-DD")}`}
-                    className="w-6px h-6px ml-0.5 bg-mega"
-                  ></div>
-                );
-              }
-              if (
-                markLotte.find((x) => x === moment(date).format("YYYY-MM-DD"))
-              ) {
-                html.push(
-                  <div
-                    key={`lotte-${moment(date).format("YYYY-MM-DD")}`}
-                    className="w-6px h-6px ml-0.5 bg-lotte"
-                  ></div>
-                );
-              }
-            }
-            return (
-              <div className="relative flex justify-center items-center">
-                <div className="flex justify-center items-center absolute translate-y-200ps -translate-x-8ps">
-                  {html}
+              return (
+                <div className="relative flex justify-center items-center">
+                  <p className="dot"></p>
+                  <div className="flex justify-center items-center absolute translate-y-200ps -translate-x-8ps">
+                    {html}
+                  </div>
                 </div>
-              </div>
-            );
-          }}
+              );
+            }}
+          />
+        </div>
+        <Help />
+        {/* FIXME: 불필요한 중간 단계가 있음 */}
+        <DateSelectorWithEventList
+          selectedDate={selectedDate}
+          events={events}
+          searchValue={searchValue}
         />
-      </div>
-      <Help />
-      {/* FIXME: 불필요한 중간 단계가 있음 */}
-      <DateSelectorWithEventList
-        selectedDate={selectedDate}
-        events={events}
-        searchValue={searchValue}
-      />
-      <Footer />
+        <Footer />
+      </Router>
     </div>
   );
 }
