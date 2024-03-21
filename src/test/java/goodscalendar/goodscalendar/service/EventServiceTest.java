@@ -1,6 +1,7 @@
 package goodscalendar.goodscalendar.service;
 
 import goodscalendar.goodscalendar.domain.Event;
+import goodscalendar.goodscalendar.domain.EventPage;
 import goodscalendar.goodscalendar.respository.EventRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
@@ -28,6 +29,12 @@ class EventServiceTest {
     @DisplayName("영화관 3사 이벤트 크롤링 후 저장")
     void saveEvent() {
         service.saveEvent();
+    }
+
+    @Test
+    @DisplayName("개별 이벤트 페이지 크롤링")
+    void individualEventPage(){
+        service.individualEventPage(EventPage.MEGABOX.name());
     }
 
     /**
