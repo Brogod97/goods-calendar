@@ -24,7 +24,19 @@ public class EventCrawler {
 
         megabox(eventList);
         cgv(eventList);
-        lotteCinema(eventList);
+//        lotteCinema(eventList);
+
+        return eventList;
+    }
+
+    public List<Event> individualCrawling(String theater) {
+        List<Event> eventList = new ArrayList<>();
+
+        switch (theater) {
+            case "MEGABOX": megabox(eventList); break;
+            case "CGV" : cgv(eventList); break;
+            case "LOTTE": lotteCinema(eventList); break;
+        }
 
         return eventList;
     }
@@ -171,7 +183,7 @@ public class EventCrawler {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
         driver = new ChromeDriver(options);
-        driver = new ChromeDriver();
+//        driver = new ChromeDriver();
         log.info("Create Driver");
         driver.get(url);
     }

@@ -38,6 +38,17 @@ public class EventService {
         }
     }
 
+    public void individualEventPage(String theater){
+        List<Event> events = eventCrawler.individualCrawling(theater);
+        for (Event event : events) {
+            String eventTitle = event.getTitle();
+            if (eventRepository.findByTitleContaining(eventTitle).isEmpty()) {
+                Event savedEvent = eventRepository.save(event);
+                log.info("savedEvent={}", savedEvent);
+            }
+        }
+    }
+
     public List<Event> getEventList(EventSearchCond eventSearchCond) {
         String searchValue = eventSearchCond.getInputValue();
         String year = eventSearchCond.getYear();
