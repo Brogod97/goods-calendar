@@ -1,5 +1,4 @@
 import React from "react";
-// import { ReactComponent as Filtericon } from "../../assets/icon/filter.svg";
 import { TbFilter } from "react-icons/tb";
 
 const Filter = ({ selectedFilters, handleFilterChange }) => {

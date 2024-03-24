@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { IoMdClose } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { CiSearch } from "react-icons/ci";
 
-const Searchpage = ({ onClose, onSearch }) => {
+const Searchpage = ({ onClose }) => {
   const [searchValue, setSearchValue] = useState("");
   const [recentSearches, setRecentSearches] = useState([]);
+  const [showCloseIcon, setShowCloseIcon] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,6 +21,7 @@ const Searchpage = ({ onClose, onSearch }) => {
 
   const handleInputChange = (e) => {
     setSearchValue(e.target.value);
+    setShowCloseIcon(e.target.value !== "");
   };
 
   const handleCancelClick = () => {
@@ -36,7 +39,6 @@ const Searchpage = ({ onClose, onSearch }) => {
         `/search-results?query=${encodeURIComponent(searchValue.trim())}`
       );
     }
-    onClose();
   };
 
   const handleDeleteSearch = (index) => {
@@ -58,16 +60,32 @@ const Searchpage = ({ onClose, onSearch }) => {
   };
 
   const handleRecentSearchClick = (search) => {
-    onSearch(search);
-    onClose();
+    navigate(`/search-results?query=${encodeURIComponent(search)}`);
+  };
+
+  const handleClearInput = () => {
+    setSearchValue("");
+    setShowCloseIcon(false);
   };
 
   return (
     <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white w-full h-full z-40 p-4">
       <div className="w-full flex z-50">
-        <div className="search-inputbox basis-5/6">
+        <div className="search-inputbox basis-5/6 relative">
+          <div className="absolute top-10px left-3">
+            <CiSearch size={20} />
+          </div>
+          <div className="relative"></div>
+          {showCloseIcon && (
+            <div
+              className="cursor-pointer absolute top-10px left-91ps"
+              onClick={handleClearInput}
+            >
+              <IoMdClose size={20} className="text-gray-500" />
+            </div>
+          )}
           <input
-            className="visible border-0 bg-gray-100 w-full cursor-text text-inherit pl-12px py-2 rounded-md"
+            className="visible border-0 bg-gray-100 w-full cursor-text text-inherit pl-10 pr-10 py-2 rounded-md outline-none"
             type="text"
             placeholder="이벤트 검색"
             value={searchValue}
@@ -75,21 +93,13 @@ const Searchpage = ({ onClose, onSearch }) => {
             onKeyPress={handleKeyPress}
           />
         </div>
-        {searchValue ? (
-          <button
-            className="text-lg font-bold top-6 right-5 border-none bg-transparent flex-grow basis-1/6 pl-4"
-            onClick={handleSearchClick}
-          >
-            검색
-          </button>
-        ) : (
-          <button
-            className="text-lg font-bold top-6 right-5 border-none bg-transparent flex-grow basis-1/6 pl-4"
-            onClick={handleCancelClick}
-          >
-            취소
-          </button>
-        )}
+
+        <button
+          className="text-lg font-bold top-6 right-5 border-none bg-transparent flex-grow basis-1/6 pl-4"
+          onClick={handleCancelClick}
+        >
+          취소
+        </button>
       </div>
       <div className="">
         <div className="mt-7 mb-1 flex h-9">
@@ -107,18 +117,19 @@ const Searchpage = ({ onClose, onSearch }) => {
         </div>
         <ul className="flex flex-col">
           {recentSearches.map((search, index) => (
-            <li
-              className="flex pl-2 h-10 "
-              key={index}
-              onClick={() => handleRecentSearchClick(search)}
-            >
-              {search}
+            <li className="flex pl-2 h-10 " key={index}>
+              <div
+                className="cursor-pointer"
+                onClick={() => handleRecentSearchClick(search)}
+              >
+                {search}
+              </div>
               <div className="ml-auto">
                 <button
                   className="border-none bg-transparent"
                   onClick={() => handleDeleteSearch(index)}
                 >
-                  <IoMdClose className="text-gray-500" />
+                  <IoMdClose size={20} className="text-gray-500" />
                 </button>
               </div>
             </li>

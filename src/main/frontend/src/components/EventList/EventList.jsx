@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./EventList.scss";
 
 const EventList = ({ events, searchValue }) => {
   const [selectedFilters] = useState([]);
@@ -15,21 +14,17 @@ const EventList = ({ events, searchValue }) => {
     : filteredEvents;
 
   return (
-    <div className="p-4">
-      {/* <div className="border-dotted border border-gray-300"></div> */}
-      <div className="flex justify-between items-center h-8 my-2">
-        <div className="text-base font-medium">이벤트 목록</div>
-      </div>
+    <div className="">
       {/* FIXME: 이벤트를 컴포넌트로 분리 -> 필요한 값만 Prop으로 전달 */}
       <ul className="list-none p-0">
         {searchedEvents.length === 0 ? (
           <div className="flex justify-center items-center text-sm text-gray-400">
-            현재 이벤트가 없습니다.
+            검색된 이벤트가 없습니다.
           </div>
         ) : (
           searchedEvents.map((event) => (
             <li
-              className="flex border border-gray-300 rounded mb-2 h-20 w-full"
+              className="flex border shadow-sm rounded mb-2 h-20 w-full"
               key={event.id}
             >
               <a
@@ -80,7 +75,9 @@ const EventList = ({ events, searchValue }) => {
                     })()}
                   </div>
                   <div className="font-14 py-1 ">
-                    <p className="font-semibold max-w-[95%] truncate">
+                    <p
+                      className={`font-semibold truncate ${event.title.length >= 30 ? "max-w-[80%]" : "max-w-[95%]"}`}
+                    >
                       {event.title}
                     </p>
                   </div>

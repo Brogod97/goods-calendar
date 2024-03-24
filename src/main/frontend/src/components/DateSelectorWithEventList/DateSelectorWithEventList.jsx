@@ -5,7 +5,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import EventList from "../EventList/EventList";
 import moment from "moment";
 
-const DateSelectorWithEventList = ({ selectedDate, events, searchValue }) => {
+const DateSelectorWithEventList = ({ selectedDate, events }) => {
   const [filteredEvents, setFilteredEvents] = useState([]);
 
   const fetchEventsByDate = useCallback(
@@ -28,8 +28,11 @@ const DateSelectorWithEventList = ({ selectedDate, events, searchValue }) => {
   }, [selectedDate, fetchEventsByDate]);
 
   return (
-    <div>
-      <EventList events={filteredEvents} searchValue={searchValue} />
+    <div className="p-4">
+      <div className="flex justify-between items-center h-8 my-2">
+        <div className="text-base font-medium">이벤트 목록</div>
+      </div>
+      <EventList events={filteredEvents} />
     </div>
   );
 };

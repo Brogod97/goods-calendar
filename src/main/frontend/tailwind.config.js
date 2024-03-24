@@ -10,6 +10,7 @@ module.exports = {
         lotte: "#ee870e",
         blackc: "#1D1D1F",
         grayc: "#7d7d84",
+        secondary: "#8C8D96",
       },
       spacing: {
         200: "200",
@@ -21,6 +22,7 @@ module.exports = {
         "16px": "16px",
         "8ps": "8%",
         550: "550",
+        "91ps": "91%",
         "106ps": "106%",
         "130ps": "130%",
         "133ps": "133%",

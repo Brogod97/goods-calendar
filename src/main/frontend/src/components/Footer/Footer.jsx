@@ -5,7 +5,7 @@ import { ReactComponent as Git } from "../../assets/icon/Git.svg";
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   return (
-    <footer className="bg-gray-100">
+    <footer className="bg-gray-100 h-36 relative -translate-y-full">
       <div className="p-4 text-center">
         <div className="px-1">
           <Logo />
