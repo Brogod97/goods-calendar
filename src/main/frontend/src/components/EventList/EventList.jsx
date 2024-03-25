@@ -14,7 +14,7 @@ const EventList = ({ events, searchValue }) => {
     : filteredEvents;
 
   return (
-    <div className="">
+    <div className="select-none">
       {/* FIXME: 이벤트를 컴포넌트로 분리 -> 필요한 값만 Prop으로 전달 */}
       <ul className="list-none p-0">
         {searchedEvents.length === 0 ? (

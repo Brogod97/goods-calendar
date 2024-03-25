@@ -11,7 +11,7 @@ function GoodsCalendar({
   markLotte,
 }) {
   return (
-    <div className="flex justify-center mx-4">
+    <div className="flex justify-center mx-4 select-none">
       <Calendar
         locale="kr"
         calendarType="gregory"

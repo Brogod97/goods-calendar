@@ -116,7 +116,7 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
         <Popup onClose={closePopup}>
           {/* FIXME: Popup 컴포넌트 내부에 children으로 전달하고 있는데, 꼭 필요한 경우가 아니라면, Popup 컴포넌트 내부에 작성하기 */}
           <div className="">
-            <div className="flex py-2 justify-around items-center border-b border-gray-300">
+            <div className="flex py-2 justify-around items-center border-b border-gray-200">
               <p className="select-none">년도</p>
               <p className="select-none">월</p>
             </div>

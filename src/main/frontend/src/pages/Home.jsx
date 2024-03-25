@@ -121,7 +121,7 @@ function Home() {
           <DateSelector onConfirm={handleConfirm} selectedDate={selectedDate} />
           <div className="pl-2">
             <button
-              className="px-2 rounded-lg border border-gray-200"
+              className="px-2 rounded-lg border border-gray-200 select-none"
               onClick={todayCursor}
             >
               오늘
