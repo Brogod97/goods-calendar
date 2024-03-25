@@ -30,7 +30,7 @@ const DateSelectorWithEventList = ({ selectedDate, events }) => {
   return (
     <div className="p-4">
       <div className="flex justify-between items-center h-8 my-2">
-        <div className="text-base font-medium">이벤트 목록</div>
+        <div className="text-base font-medium select-none">이벤트 목록</div>
       </div>
       <EventList events={filteredEvents} />
     </div>

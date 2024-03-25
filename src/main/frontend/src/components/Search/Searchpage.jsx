@@ -101,7 +101,7 @@ const Searchpage = ({ onClose }) => {
           취소
         </button>
       </div>
-      <div className="">
+      <div className="select-none">
         <div className="mt-7 mb-1 flex h-9">
           <p className="text-sm text-gray-400 mr-auto">
             <span className="pl-2 ">최근 검색어</span>

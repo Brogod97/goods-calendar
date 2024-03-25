@@ -86,7 +86,7 @@ const SearchResultPage = () => {
   };
 
   return (
-    <div>
+    <div className="select-none">
       <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white w-full h-full z-40 p-4">
         <div className="w-full flex z-50">
           <div className="search-inputbox basis-5/6 relative">
@@ -127,7 +127,7 @@ const SearchResultPage = () => {
           </button>
           <button
             className={`py-1 px-3 mr-1 h-7 text-xs rounded-full border  ${selectedFilter === "FM" ? "bg-blackc text-white border-blackc" : "text-secondary border-gray-300"}`}
-            onClick={() => handleFilterClick("FM")}
+            onClick={() => handleFilterClick("FM", "TTT")}
           >
             CGV
           </button>

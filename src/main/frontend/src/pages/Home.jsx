@@ -17,6 +17,7 @@ function Home() {
   const [markMega, setMarkMega] = useState([]);
   const [markLotte, setMarkLotte] = useState([]);
   const [selectedFilters, setSelectedFilters] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,6 +55,40 @@ function Home() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    // 필터링된 이벤트들을 설정
+    const filtered = events.filter((event) => {
+      if (selectedFilters.length === 0) return true; // 선택된 필터가 없으면 모든 이벤트 표시
+
+      // 선택된 필터에 해당하는 이벤트만 표시
+      return selectedFilters.includes(event.goodsType);
+    });
+    setFilteredEvents(filtered);
+
+    // 선택된 필터에 따라 markCgv, markMega, markLotte 값을 설정
+    const markCgvDates = filtered
+      .filter((event) => event.theater === "CGV")
+      .map((event) =>
+        moment(event.startDate, "YYYY.MM.DD").format("YYYY-MM-DD")
+      );
+
+    const markMegaDates = filtered
+      .filter((event) => event.theater === "MEGABOX")
+      .map((event) =>
+        moment(event.startDate, "YYYY.MM.DD").format("YYYY-MM-DD")
+      );
+
+    const markLotteDates = filtered
+      .filter((event) => event.theater === "LOTTE")
+      .map((event) =>
+        moment(event.startDate, "YYYY.MM.DD").format("YYYY-MM-DD")
+      );
+
+    setMarkCgv(markCgvDates);
+    setMarkMega(markMegaDates);
+    setMarkLotte(markLotteDates);
+  }, [events, selectedFilters]);
+
   const handleConfirm = (selectedYear, selectedMonth, defaultdate) => {
     setSelectedDate(new Date(selectedYear, selectedMonth - 1, defaultdate));
   };
@@ -66,13 +101,16 @@ function Home() {
     setSelectedDate(new Date());
   };
 
-  const handleFilterChange = (type) => {
-    // 선택된 필터들을 관리하는 배열에 추가 또는 제거
-    if (selectedFilters.includes(type)) {
-      setSelectedFilters(selectedFilters.filter((filter) => filter !== type));
-    } else {
-      setSelectedFilters([...selectedFilters, type]);
-    }
+  const handleFilterChange = (types) => {
+    setSelectedFilters(types);
+    // 필터링된 이벤트들을 설정
+    const filtered = events.filter((event) => {
+      if (types.length === 0) return true; // 선택된 필터가 없으면 모든 이벤트 표시
+
+      // 선택된 필터에 해당하는 이벤트만 표시
+      return types.includes(event.goodsType);
+    });
+    setFilteredEvents(filtered);
   };
 
   return (
@@ -106,7 +144,7 @@ function Home() {
         <Help />
         <DateSelectorWithEventList
           selectedDate={selectedDate}
-          events={events}
+          events={filteredEvents} // 필터링된 이벤트들로 변경
         />
       </div>
       <Footer />
