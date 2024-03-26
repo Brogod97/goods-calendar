@@ -22,7 +22,7 @@ const SearchResultPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://192.168.45.95:8080/events");
+        const response = await axios.get("http://172.20.10.4:8080/events");
         setEvents(response.data);
         setFilteredEvents(response.data); // 전체 이벤트를 필터된 이벤트로 설정
       } catch (error) {
@@ -70,12 +70,14 @@ const SearchResultPage = () => {
     navigate("/"); // 홈페이지 경로로 이동
   };
 
-  const handleFilterClick = (filter) => {
-    setSelectedFilter(filter);
-    if (filter === "전체") {
+  const handleFilterClick = (filters) => {
+    setSelectedFilter(filters); // 여러 필터를 사용할 수 있도록 수정
+    if (filters.includes("전체")) {
       setFilteredEvents(events);
     } else {
-      const filtered = events.filter((event) => event.goodsType === filter);
+      const filtered = events.filter((event) =>
+        filters.includes(event.goodsType)
+      );
       setFilteredEvents(filtered);
     }
   };
@@ -86,9 +88,9 @@ const SearchResultPage = () => {
   };
 
   return (
-    <div className="select-none">
-      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white w-full h-full z-40 p-4">
-        <div className="w-full flex z-50">
+    <div className="select-none h-auto">
+      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white w-full h-full p-4 overflow-y-auto overflow-x-hidden">
+        <div className="w-full flex">
           <div className="search-inputbox basis-5/6 relative">
             <div className="absolute top-10px left-3">
               <CiSearch size={20} />
@@ -126,8 +128,8 @@ const SearchResultPage = () => {
             전체
           </button>
           <button
-            className={`py-1 px-3 mr-1 h-7 text-xs rounded-full border  ${selectedFilter === "FM" ? "bg-blackc text-white border-blackc" : "text-secondary border-gray-300"}`}
-            onClick={() => handleFilterClick("FM", "TTT")}
+            className={`py-1 px-3 mr-1 h-7 text-xs rounded-full border  ${Array.isArray(selectedFilter) && selectedFilter.some((filter) => filter === "FM") ? "bg-blackc text-white border-blackc" : "text-secondary border-gray-300"}`}
+            onClick={() => handleFilterClick(["FM", "TTT"])}
           >
             CGV
           </button>

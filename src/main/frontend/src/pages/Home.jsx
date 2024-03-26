@@ -22,7 +22,7 @@ function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://192.168.45.95:8080/events");
+        const response = await axios.get("http://172.20.10.4:8080/events");
         setEvents(response.data);
 
         // markCgv, markMega, markLotte에 날짜 추가하는 로직

@@ -9,13 +9,25 @@ const Filter = ({ selectedFilters, handleFilterChange }) => {
   const filterModalRef = useRef(null);
 
   const toggleFilterModal = useCallback(() => {
-    setIsModalOpen((prevState) => !prevState); // 이전 상태를 기반으로 토글
+    setIsModalOpen((prevState) => !prevState);
+    // 이전 상태를 기반으로 토글
   }, []);
 
   const handleSaveFilters = () => {
     handleFilterChange(selectedFiltersTemp);
-    toggleFilterModal(); // 필터 모달 닫기
+    closeFilterModal();
   };
+
+  const closeFilterModal = useCallback(() => {
+    if (isModalOpen) {
+      const flitermodal = document.querySelector("#filter-modal");
+      flitermodal.classList.add("animate__fadeOut");
+      flitermodal.classList.add("animate__faster");
+      setTimeout(() => {
+        setIsModalOpen((prevState) => !prevState);
+      }, 300);
+    }
+  }, [isModalOpen]);
 
   const handleCheckboxChange = (filter) => {
     const index = selectedFiltersTemp.indexOf(filter);
@@ -35,7 +47,7 @@ const Filter = ({ selectedFilters, handleFilterChange }) => {
         filterModalRef.current &&
         !filterModalRef.current.contains(event.target)
       ) {
-        toggleFilterModal(); // 모달이 열려있는 상태에서 모달 외부를 클릭하면 모달을 닫음
+        closeFilterModal();
       }
     };
 
@@ -44,19 +56,22 @@ const Filter = ({ selectedFilters, handleFilterChange }) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isModalOpen, toggleFilterModal]);
+  }, [isModalOpen, closeFilterModal]);
 
   return (
     <div className="w-4 h-4 ml-auto mr-2 relative">
-      <div className="cursor-pointer" onClick={toggleFilterModal}>
+      <div
+        className={`cursor-pointer ${isModalOpen ? "pointer-events-none" : ""}`}
+        onClick={toggleFilterModal}
+      >
         <TbFilter className="hover:stroke-grayc" color="#1d1d1f" />
       </div>
       <div
         ref={filterModalRef}
         id="filter-modal"
-        className={`absolute top-6 left-[-192px] w-52 bg-white rounded-lg drop-shadow-md items-center ${
-          isModalOpen ? "" : "hidden" // 모달의 상태에 따라 hidden 클래스를 추가하여 모달을 숨김
-        } px-5 z-50`}
+        className={`absolute top-6 left-[-192px] w-52 bg-white rounded-lg drop-shadow-md items-center animate__animated ${
+          isModalOpen ? "animate__fadeIn animate__faster z-50" : "-z-10" // 모달의 상태에 따라 hidden 클래스를 추가하여 모달을 숨김
+        } px-5`}
       >
         {/* 각 필터를 체크박스로 표시 */}
         <div className="flex pt-3 pb-2 items-center border-b border-gray-200">
@@ -65,7 +80,7 @@ const Filter = ({ selectedFilters, handleFilterChange }) => {
         <div className="flex flex-col py-4 select-none">
           <div className="h-5 text-left text-sm mb-2 flex items-center ">
             <input
-              className="peer mr-2 w-14px h-14px border rounded-sm border-grayc appearance-none checked:border-0 checked:bg-[url('./assets/icon/checked.svg')] bg-no-repeat bg-center "
+              className="peer cursor-pointer mr-2 w-14px h-14px border rounded-sm border-grayc appearance-none checked:border-0 checked:bg-[url('./assets/icon/checked.svg')] bg-no-repeat bg-center "
               type="checkbox"
               value="TTT"
               checked={selectedFiltersTemp.includes("TTT")}
@@ -78,7 +93,7 @@ const Filter = ({ selectedFilters, handleFilterChange }) => {
 
           <div className="h-5 text-left text-sm mb-2 flex items-center">
             <input
-              className="peer mr-2 w-14px h-14px border rounded-sm border-grayc appearance-none checked:border-0 checked:bg-[url('./assets/icon/checked.svg')] bg-no-repeat bg-center"
+              className="peer cursor-pointer mr-2 w-14px h-14px border rounded-sm border-grayc appearance-none checked:border-0 checked:bg-[url('./assets/icon/checked.svg')] bg-no-repeat bg-center"
               type="checkbox"
               value="FM"
               checked={selectedFiltersTemp.includes("FM")}
@@ -90,7 +105,7 @@ const Filter = ({ selectedFilters, handleFilterChange }) => {
           </div>
           <div className="h-5 text-left text-sm mb-2 flex items-center">
             <input
-              className="peer mr-2 w-14px h-14px border rounded-sm border-grayc appearance-none checked:border-0 checked:bg-[url('./assets/icon/checked.svg')] bg-no-repeat bg-center"
+              className="peer cursor-pointer mr-2 w-14px h-14px border rounded-sm border-grayc appearance-none checked:border-0 checked:bg-[url('./assets/icon/checked.svg')] bg-no-repeat bg-center"
               type="checkbox"
               value="AC"
               checked={selectedFiltersTemp.includes("AC")}
@@ -102,7 +117,7 @@ const Filter = ({ selectedFilters, handleFilterChange }) => {
           </div>
           <div className="h-5 text-left text-sm flex items-center">
             <input
-              className="peer mr-2 w-14px h-14px border rounded-sm border-grayc appearance-none checked:border-0 checked:bg-[url('./assets/icon/checked.svg')] bg-no-repeat bg-center"
+              className="peer cursor-pointer mr-2 w-14px h-14px border rounded-sm border-grayc appearance-none checked:border-0 checked:bg-[url('./assets/icon/checked.svg')] bg-no-repeat bg-center"
               type="checkbox"
               value="OT"
               checked={selectedFiltersTemp.includes("OT")}

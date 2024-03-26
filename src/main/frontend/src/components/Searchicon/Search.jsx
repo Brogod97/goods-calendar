@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Searchpage from "../Search/Searchpage";
-// import { ReactComponent as Searchicon } from "../../assets/icon/search.svg";
 import { TbSearch } from "react-icons/tb";
 
 const Search = () => {
@@ -8,20 +7,20 @@ const Search = () => {
 
   const openModal = () => {
     setIsModalOpen(true);
+    document.body.style.overflow = "hidden";
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
+    document.body.style.overflow = "visible";
   };
 
   return (
     <div className="size-4 mx-6px">
       <div className="cursor-pointer" onClick={openModal}>
-        {/* <Searchicon width={16} height={16} /> */}
         <TbSearch className="hover:stroke-grayc" color="#1d1d1f" />
       </div>
-
-      {isModalOpen && <Searchpage onClose={closeModal} />}
+      <div>{isModalOpen && <Searchpage onClose={closeModal} />}</div>
     </div>
   );
 };
