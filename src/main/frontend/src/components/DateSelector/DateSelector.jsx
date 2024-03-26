@@ -107,7 +107,7 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
   return (
     <div>
       <div
-        className="relative flex items-center cursor-pointer"
+        className="relative flex items-center cursor-pointer select-none"
         onClick={() => openPopup2(selectedYear, selectedMonth, years, months)}
       >
         {defaultYear}년 {defaultMonth}월 <Down />
@@ -116,9 +116,9 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
         <Popup onClose={closePopup}>
           {/* FIXME: Popup 컴포넌트 내부에 children으로 전달하고 있는데, 꼭 필요한 경우가 아니라면, Popup 컴포넌트 내부에 작성하기 */}
           <div className="">
-            <div className="flex py-2 justify-around items-center border-b border-gray-300">
-              <p>년도</p>
-              <p>월</p>
+            <div className="flex py-2 justify-around items-center border-b border-gray-200">
+              <p className="select-none">년도</p>
+              <p className="select-none">월</p>
             </div>
             <div className="flex py-2 justify-around items-center">
               <ul className="testStyle scroll-smooth snap-y snap-mandatory">
@@ -129,7 +129,7 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
                     <li
                       key={year}
                       onClick={() => handleYearClick(year, index)}
-                      className={`listItemStyle cursor-pointer snap-start ${
+                      className={`listItemStyle cursor-pointer snap-start select-none ${
                         selectedYear === year ? "selected" : ""
                       }`}
                     >
@@ -149,7 +149,7 @@ const DateSelector = ({ onConfirm, selectedDate }) => {
                     <li
                       key={month}
                       onClick={() => handleMonthClick(month, index)}
-                      className={`listItemStyle cursor-pointer snap-start ${
+                      className={`listItemStyle cursor-pointer snap-start select-none ${
                         selectedMonth === month ? "selected" : ""
                       }`}
                     >

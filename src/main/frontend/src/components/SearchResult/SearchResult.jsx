@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 
-const SearchResults = () => {
+const SearchResult = () => {
   // useLocation 훅을 사용하여 location 객체를 가져옴
   const location = useLocation();
 
@@ -18,4 +18,4 @@ const SearchResults = () => {
   );
 };
 
-export default SearchResults;
+export default SearchResult;
